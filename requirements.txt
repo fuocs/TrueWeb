@@ -1,0 +1,31 @@
+# Core Dependencies
+PyQt6>=6.10.0
+PyQt6-WebEngine>=6.10.0
+Flask>=3.1.2
+requests>=2.32.5
+python-dotenv>=1.2.1
+
+# Web Scraping & Parsing
+beautifulsoup4>=4.12.3
+lxml>=5.3.0
+
+# AI & API Integration
+groq>=0.10.0
+
+# Firebase
+firebase-admin>=6.6.0
+Pyrebase4>=4.8.0
+
+# Image Processing
+Pillow>=11.1.0
+
+# SSL & Security
+certifi>=2024.12.14
+cryptography>=44.0.0
+
+# Utilities
+python-whois>=0.9.4
+dnspython>=2.7.0
+
+# Build Tools (optional)
+pyinstaller>=6.11.1

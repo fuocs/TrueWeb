@@ -1,0 +1,375 @@
+# TrueWeb 🛡️
+
+**Advanced Website Security Analysis Tool** - A comprehensive desktop application with browser extension for real-time website safety assessment.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
+[![PyQt6](https://img.shields.io/badge/PyQt6-6.10%2B-green.svg)](https://www.riverbankcomputing.com/software/pyqt/)
+
+## 🌟 Features
+
+- **🤖 AI-Powered Analysis**: Utilizes Groq AI for intelligent content evaluation with 10-key load balancing
+- **🔍 Multi-Layer Security Checks**:
+  - VirusTotal integration for malware detection
+  - Google Safe Browsing API
+  - SSL/TLS certificate validation
+  - Domain age and reputation analysis
+  - HTML heuristic pattern detection
+  - Whois information lookup
+- **📊 Smart Scoring System**: Weighted scoring algorithm with configurable thresholds
+- **🌐 Browser Extension**: Real-time website checking via Chrome/Edge extension
+- **💾 Firebase Integration**: User authentication and review system
+- **🖥️ System Tray**: Background operation with quick access
+- **📱 Modern UI**: Clean PyQt6 interface with responsive design
+
+## 🏗️ Architecture
+
+```
+TrueWeb-GUI/
+├── app.py                  # Main application entry point
+├── main.py                 # Alternative launcher
+├── backend/                # Core analysis modules
+│   ├── scoring_system.py   # Orchestrates security checks
+│   ├── reputation.py       # VirusTotal & Safe Browsing
+│   ├── AI_confidence.py    # Groq AI analysis
+│   ├── ssl_certificate.py  # SSL validation
+│   ├── html_heuristic.py   # Pattern detection
+│   ├── firebaseDB.py       # Database operations
+│   ├── localserver.py      # Flask server for extension
+│   └── services/           # Supporting services
+├── frontend/               # PyQt6 UI components
+│   ├── main_window.py      # Primary window
+│   ├── result_page.py      # Analysis results display
+│   ├── loading_page.py     # Progress indicator
+│   └── media/              # UI assets
+└── extension/              # Browser extension
+    ├── manifest.json       # Extension configuration
+    ├── background.js       # Background service worker
+    └── content.js          # Content script
+```
+
+## 📋 Prerequisites
+
+- **Python**: 3.8 or higher
+- **Operating System**: Windows 10/11, macOS 10.14+, or Linux (Ubuntu 20.04+)
+- **API Keys** (required):
+  - Groq API keys (10 recommended for load balancing)
+  - VirusTotal API key
+  - Google Safe Browsing API key
+  - Firebase credentials
+
+## 🚀 Installation
+
+### Option 1: Run from Source (Development)
+
+#### 1. Clone the Repository
+```bash
+git clone https://github.com/yourusername/TrueWeb.git
+cd TrueWeb
+```
+
+#### 2. Create Virtual Environment
+**Windows:**
+```powershell
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+**macOS/Linux:**
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+#### 3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+Or using `uv` (faster):
+```bash
+pip install uv
+uv pip install -r requirements.txt
+```
+
+#### 4. Configure Environment Variables
+
+Create a `.env` file in the `backend/` directory:
+
+```bash
+cd backend
+cp .env.example .env
+```
+
+Edit `.env` and add your API keys:
+
+```env
+# Groq AI API Keys (comma-separated for load balancing)
+GROQ_API_KEY=key1,key2,key3,key4,key5,key6,key7,key8,key9,key10
+
+# VirusTotal API Key
+VIRUSTOTAL_API_KEY=your_virustotal_api_key
+
+# Google Safe Browsing API Key
+GOOGLE_SAFE_BROWSING_API_KEY=your_gsb_api_key
+
+# Firebase Configuration
+FIREBASE_API_KEY=your_firebase_api_key
+FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+FIREBASE_DATABASE_URL=https://your_project.firebaseio.com
+FIREBASE_PROJECT_ID=your_project_id
+FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+FIREBASE_APP_ID=your_app_id
+```
+
+**📌 Getting API Keys:**
+- **Groq**: Sign up at https://console.groq.com
+- **VirusTotal**: https://www.virustotal.com/gui/join-us
+- **Google Safe Browsing**: https://developers.google.com/safe-browsing
+- **Firebase**: Create project at https://console.firebase.google.com
+
+Also place your `serviceAccountKey.json` in the root directory (download from Firebase Console).
+
+#### 5. Run the Application
+```bash
+python app.py
+```
+
+Or:
+```bash
+python main.py
+```
+
+### Option 2: Build Standalone Executable
+
+#### Build with PyInstaller
+
+**Windows:**
+```powershell
+# Install PyInstaller
+pip install pyinstaller
+
+# Build executable
+pyinstaller TrueWeb.spec
+```
+
+The executable will be created in `dist/TrueWeb/`:
+- `TrueWeb.exe` (main executable)
+- Copy your `.env` file to the same directory as the .exe
+- Run `TrueWeb.exe`
+
+**macOS:**
+```bash
+pyinstaller TrueWeb.spec
+# Output: dist/TrueWeb.app
+```
+
+**Linux:**
+```bash
+pyinstaller TrueWeb.spec
+# Output: dist/TrueWeb/TrueWeb
+```
+
+**⚠️ Important**: When running the .exe, place the `.env` file in the same directory as the executable. The application will automatically detect and load it.
+
+## 🌐 Browser Extension Setup
+
+### Chrome/Edge Installation
+
+1. Open Chrome/Edge and navigate to `chrome://extensions/` or `edge://extensions/`
+2. Enable **Developer mode** (toggle in top-right)
+3. Click **Load unpacked**
+4. Select the `extension/` folder from this repository
+5. The TrueWeb icon should appear in your toolbar
+
+### Usage
+
+1. Start the TrueWeb desktop application (it runs a local server on port 38999)
+2. Click the TrueWeb extension icon while on any website
+3. The extension sends the URL to the desktop app for analysis
+4. Results appear in the desktop application
+
+## 📖 Usage Guide
+
+### Desktop Application
+
+1. **Login**: Sign in with Google account (requires Firebase authentication)
+2. **Search**: Enter a URL in the search box or use the browser extension
+3. **Analysis**: Wait while TrueWeb performs multi-layer security checks:
+   - 🌐 Connectivity check
+   - 🤖 AI content analysis
+   - 🔍 Reputation database lookup
+   - 🔒 SSL certificate validation
+   - 📊 Domain age verification
+   - 🕵️ Pattern analysis
+4. **Results**: View comprehensive safety score and detailed breakdown
+5. **Review**: Submit or read community reviews
+
+### Scoring System
+
+- **Score < 3.0**: ⚠️ **POTENTIALLY UNSAFE** - Avoid visiting
+- **Score 3.0 - 4.0**: ⚡ **USE WITH CAUTION** - Verify carefully
+- **Score > 4.0**: ✅ **CAN BE TRUSTED** - Generally safe
+
+Scores are weighted based on:
+- Reputation Database: 2.0x
+- AI Analysis: 1.5x
+- Domain Age: 1.0x
+- SSL Certificate: 1.2x
+- HTML Heuristics: 0.8x
+
+## 🔧 Configuration
+
+### Customizing Thresholds
+
+Edit `backend/config.py`:
+
+```python
+SCORE_WEIGHTS = {
+    'Reputation DB': 2.0,
+    'AI analysis': 1.5,
+    'Domain age': 1.0,
+    'SSL certificate': 1.2,
+    'HTML heuristics': 0.8,
+}
+
+THRESHOLDS = {
+    'unsafe': 3.0,
+    'caution': 4.0,
+}
+```
+
+### Adjusting AI Model
+
+In `backend/AI_confidence.py`, you can change the Groq model:
+
+```python
+model="llama-3.3-70b-versatile"  # Default
+# or
+model="mixtral-8x7b-32768"
+```
+
+## 🐛 Troubleshooting
+
+### "Connection Failed" Error
+
+If websites like `portal.hcmus.edu.vn` fail to connect:
+- The app automatically handles SSL verification bypass for self-signed certificates
+- Check your internet connection
+- Verify the URL is correct and accessible
+
+### "Rate Limit Exceeded" for AI Analysis
+
+- Ensure you have multiple Groq API keys configured (comma-separated in `.env`)
+- The app automatically rotates through keys when rate limits are hit
+- Consider upgrading your Groq plan
+
+### Extension Not Connecting
+
+- Ensure the desktop app is running (check system tray)
+- Verify local server is on port 38999: `netstat -ano | findstr 38999`
+- Check extension permissions in `chrome://extensions`
+
+### PyInstaller Build Issues
+
+**Windows Defender blocking .exe:**
+```powershell
+# Add exclusion
+Add-MpPreference -ExclusionPath "C:\path\to\dist\TrueWeb"
+```
+
+**Missing .env file:**
+- Always copy `.env` to the same directory as the .exe
+- Check logs in the console for environment loading messages
+
+## 🧪 Testing
+
+Run quick tests to verify setup:
+
+```bash
+# Test environment loading
+python backend/env_loader.py
+
+# Test Groq API connection
+python -c "from backend.AI_confidence import check_groq_keys; check_groq_keys()"
+
+# Test scoring system
+python backend/scoring_system.py --test
+```
+
+## 📦 Dependencies
+
+Key libraries (see `pyproject.toml` for full list):
+
+- **PyQt6** (>=6.10.0): GUI framework
+- **Flask** (>=3.1.2): Local server for extension
+- **requests** (>=2.32.5): HTTP client
+- **python-dotenv** (>=1.2.1): Environment management
+- **beautifulsoup4**: HTML parsing
+- **Pillow**: Image processing
+- **firebase-admin**: Firebase integration
+- **groq**: AI analysis API
+
+## 🤝 Contributing
+
+Contributions are welcome! Please:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see below for details.
+
+```
+MIT License
+
+Copyright (c) 2026 TrueWeb Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+## 🙏 Acknowledgments
+
+- **Groq** for providing fast AI inference
+- **VirusTotal** for malware detection API
+- **Google Safe Browsing** for threat intelligence
+- **PyQt6** for the excellent GUI framework
+- **Firebase** for backend services
+
+## 📞 Support
+
+- **Issues**: Report bugs on [GitHub Issues](https://github.com/yourusername/TrueWeb/issues)
+- **Documentation**: See [ENV_SETUP.md](backend/ENV_SETUP.md) for detailed environment setup
+
+## 🔒 Security Notice
+
+This tool is designed for educational and security research purposes. Always:
+- Keep your API keys confidential (never commit `.env` to git)
+- Use HTTPS for production deployments
+- Review the code before running on sensitive systems
+- Update dependencies regularly for security patches
+
+---
+
+**Made with ❤️ for a safer web**
