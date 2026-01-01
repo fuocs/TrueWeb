@@ -1,0 +1,34 @@
+.python-version
+.venv
+__pycache__
+.env
+backend/.env
+
+TrueWeb.code-workspace
+new_fe/
+serviceAccountKey.json
+backend/utils/debugger.py
+backend/main_temp.py
+src/
+
+# Build files (GIỮ .spec để build lại)
+dist/
+build/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+
+# Temporary files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+.DS_Store
+*.zip
+pip
+uv.lock
+
+# Logs
+*.log
