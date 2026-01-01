@@ -6,12 +6,12 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    # Note: Do NOT bundle secrets (backend/.env or serviceAccountKey.json) into the executable.
-    # Keep those files out of the built bundle and provide them separately to users.
     datas=[
         ('frontend/media', 'frontend/media'),
         ('extension', 'extension'),
-        # If you need to include other non-secret data files, add them here.
+        ('backend/.env', 'backend'),
+        ('serviceAccountKey.json', '.'),
+        ('backend/services/public_suffix_list.dat', 'whois/data'),
     ],
     hiddenimports=[
         'PyQt6.QtCore',

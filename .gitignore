@@ -11,10 +11,11 @@ backend/utils/debugger.py
 backend/main_temp.py
 src/
 
-# Build files (GIỮ .spec để build lại)
+# Build files
 dist/
 build/
 *.egg-info/
+*.spec
 
 # IDE
 .vscode/
