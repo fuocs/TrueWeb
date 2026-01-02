@@ -212,14 +212,15 @@ class RespondWindow(QDialog):
 
     def start_analysis(self):
         self.loading_page.start_loading()
-        self.worker = AnalysisWorker(self.url)
+        # Initialize with default parameters (no screenshots for respond window for speed)
+        self.worker = AnalysisWorker(self.url, timeout=10, retry_count=3, screenshot_enabled=False)
         self.worker.finished_signal.connect(self.on_analysis_finished)
         self.worker.start()
 
-    def on_analysis_finished(self, score, criteria, descriptions):
+    def on_analysis_finished(self, score, criteria, descriptions, screenshot_paths, error_modules):
         # Check if website is unreachable
-        if 'Connection Error' in descriptions:
-            error_msg = descriptions['Connection Error'][0] if descriptions['Connection Error'] else 'Website is unreachable'
+        if error_modules and error_modules.get('__website_unreachable__'):
+            error_msg = descriptions.get('Connection Error', ['Website is unreachable'])[0]
             # Show error message and close
             from PyQt6.QtWidgets import QMessageBox
             msg = QMessageBox()

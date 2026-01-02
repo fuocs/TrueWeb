@@ -16,6 +16,7 @@ from backend import scoring_system
 from backend.config import SCORE_WEIGHTS
 from .user_review import ReviewsSection
 from .loading_page import LoadingPage
+from .result_components import AnalysisWorker  # Import unified AnalysisWorker
 
 # Custom clickable label for URL handling
 class ClickableLabel(QLabel):
@@ -178,50 +179,6 @@ class AnimatedProgressBar(QProgressBar):
         self.animation.setStartValue(0)
         self.animation.setEndValue(target_value)
         self.animation.start()
-
-# --- WORKER THREAD ---
-class AnalysisWorker(QThread):
-    # Signal để gửi dữ liệu về giao diện chính khi xử lý xong (thêm screenshot_paths và error_modules)
-    finished_signal = pyqtSignal(float, dict, dict, object, object)  # objects for lists/dicts
-    progress_signal = pyqtSignal(str)  # Signal to update loading status
-
-    def __init__(self, url, timeout, retry_count, screenshot_enabled=True):
-        super().__init__()
-        self.url = url
-        self.timeout = timeout
-        self.retry_count = retry_count
-        self.screenshot_enabled = screenshot_enabled
-
-    def run(self):
-        try:
-            # Step 1: Check if website is reachable
-            self.progress_signal.emit("Checking if website is reachable...")
-            from backend.scoring_system import quick_connectivity_check
-            is_reachable, error_msg = quick_connectivity_check(self.url, timeout=5)
-            
-            if not is_reachable:
-                # Website unreachable
-                error_modules = {'__website_unreachable__': True}
-                descriptions = {'Connection Error': [error_msg]}
-                self.finished_signal.emit(0.0, {}, descriptions, None, error_modules)
-                return
-            
-            self.progress_signal.emit("Analyzing website...")
-            
-            score, criteria, descriptions, screenshot_paths, error_modules = scoring_system.check_url(
-                url=self.url, 
-                timeout=self.timeout,
-                retry_count=self.retry_count,
-                screenshot_enabled=self.screenshot_enabled
-            )
-            # Emit với screenshot_paths và error_modules
-            self.finished_signal.emit(score, criteria, descriptions, screenshot_paths, error_modules)
-        except Exception as e:
-            print(f"Error in analysis thread: {e}")
-            import traceback
-            traceback.print_exc()
-            # Gửi về dữ liệu mặc định hoặc xử lý lỗi tùy ý
-            self.finished_signal.emit(0.0, {}, {}, None, {})
 
 # --- POPUP & GRAPH CLASS (Giữ nguyên) ---
 class ImagePopup(QDialog):

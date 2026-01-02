@@ -9,25 +9,54 @@ from frontend.UI_helpers import get_asset_path
 from backend import scoring_system
 
 class AnalysisWorker(QThread):
-    finished_signal = pyqtSignal(float, dict, dict)
+    """
+    Unified AnalysisWorker for both result_page and respond_window.
+    Supports full analysis with screenshots, progress updates, and error handling.
+    """
+    # Signal để gửi dữ liệu về giao diện chính khi xử lý xong
+    finished_signal = pyqtSignal(float, dict, dict, object, object)  # score, criteria, descriptions, screenshot_paths, error_modules
+    progress_signal = pyqtSignal(str)  # Signal to update loading status
 
-    def __init__(self, url):
+    def __init__(self, url, timeout=10, retry_count=3, screenshot_enabled=True):
         super().__init__()
         self.url = url
+        self.timeout = timeout
+        self.retry_count = retry_count
+        self.screenshot_enabled = screenshot_enabled
 
     def run(self):
         try:
-            score, criteria, descriptions, screenshot_paths, error_modules = scoring_system.check_url(url=self.url)
+            # Step 1: Check if website is reachable
+            self.progress_signal.emit("Checking if website is reachable...")
+            from backend.scoring_system import quick_connectivity_check
+            is_reachable, error_msg = quick_connectivity_check(self.url, timeout=5)
             
-            # Check if website is unreachable
-            if error_modules and error_modules.get('__website_unreachable__'):
-                # Emit error state with connection error details
-                self.finished_signal.emit(0.0, {}, descriptions)
-            else:
-                self.finished_signal.emit(score, criteria, descriptions)
+            if not is_reachable:
+                # Website unreachable
+                error_modules = {'__website_unreachable__': True}
+                descriptions = {'Connection Error': [error_msg]}
+                self.finished_signal.emit(0.0, {}, descriptions, None, error_modules)
+                return
+            
+            self.progress_signal.emit("Analyzing website...")
+            
+            # Step 2: Full analysis with screenshots
+            score, criteria, descriptions, screenshot_paths, error_modules = scoring_system.check_url(
+                url=self.url, 
+                timeout=self.timeout,
+                retry_count=self.retry_count,
+                screenshot_enabled=self.screenshot_enabled
+            )
+            
+            # Emit complete results
+            self.finished_signal.emit(score, criteria, descriptions, screenshot_paths, error_modules)
+            
         except Exception as e:
             print(f"Error in analysis thread: {e}")
-            self.finished_signal.emit(0.0, {}, {})
+            import traceback
+            traceback.print_exc()
+            # Gửi về dữ liệu mặc định
+            self.finished_signal.emit(0.0, {}, {}, None, {})
 
 
 class ImagePopup(QDialog):
