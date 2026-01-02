@@ -71,7 +71,7 @@ class ResultSummaryPage(QWidget):
         c_layout = QVBoxLayout(self.criteria_frame)
         c_layout.setSpacing(2); c_layout.setContentsMargins(5, 5, 5, 5)
 
-        ordered_keys = ['Certificate details', 'Server reliablity', 'Domain age', 'Domain pattern', 'HTML content and behavior', 'Protocol security', 'AI analysis', 'Reputation DB', 'User review']
+        ordered_keys = ['Certificate details', 'Server reliablity', 'Domain age', 'Domain pattern', 'HTML content and behavior', 'Protocol security', 'AI analysis', 'Reputation Databases', 'User review']
         self.criteria_bars = []
         for name in ordered_keys:
             score_val = criteria_scores_dict.get(name, 0.0)

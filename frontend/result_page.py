@@ -916,68 +916,114 @@ class SearchResultsPage(QWidget):
 
         sys_container.addWidget(self.preview_container)
 
-        # Gauge + Button Details + Scale Legend
+        # Gauge + Button Details
         right_col_layout = QVBoxLayout()
         right_col_layout.setSpacing(5)
         right_col_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        # Horizontal container for gauge and scale
-        gauge_and_scale = QHBoxLayout()
-        gauge_and_scale.setSpacing(20)
-        gauge_and_scale.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
         self.gauge = ScoreGauge(self.score)
-        gauge_and_scale.addWidget(self.gauge, 0, Qt.AlignmentFlag.AlignCenter)
+        right_col_layout.addWidget(self.gauge, 0, Qt.AlignmentFlag.AlignCenter)
 
-        # Create scale legend
-        scale_widget = QWidget()
-        scale_widget.setFixedWidth(150)
-        scale_layout = QVBoxLayout(scale_widget)
-        scale_layout.setSpacing(8)
-        scale_layout.setContentsMargins(0, 10, 0, 10)
-
-        # Title for scale
-        scale_title = QLabel("Score Scale:")
-        scale_title.setStyleSheet(f"font-size: 11px; font-weight: bold; color: {cf.DARK_TEXT};")
-        scale_layout.addWidget(scale_title)
-
-        # Three thresholds
-        thresholds = [
-            ("< 3.0", "POTENTIALLY\nUNSAFE", cf.UNSAFE),
-            ("3.0 - 4.0", "USE WITH\nCAUTION", cf.CAUTION),
-            ("> 4.0", "CAN BE\nTRUSTED", cf.TRUSTED)
-        ]
-
-        for score_range, label_text, color in thresholds:
-            threshold_frame = QFrame()
-            threshold_frame.setStyleSheet(f"""
-                QFrame {{
-                    background-color: {color};
-                    border-radius: 4px;
-                    padding: 4px;
-                }}
-            """)
-            threshold_layout = QVBoxLayout(threshold_frame)
-            threshold_layout.setContentsMargins(6, 4, 6, 4)
-            threshold_layout.setSpacing(2)
-
-            # Score range
-            range_label = QLabel(score_range)
-            range_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            range_label.setStyleSheet("font-size: 9px; font-weight: bold; color: white; background: transparent;")
-            threshold_layout.addWidget(range_label)
-
-            # Status text
-            status_label = QLabel(label_text)
-            status_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            status_label.setWordWrap(True)
-            status_label.setStyleSheet("font-size: 8px; font-weight: bold; color: white; background: transparent;")
-            threshold_layout.addWidget(status_label)
-
-            scale_layout.addWidget(threshold_frame)
-
-        gauge_and_scale.addWidget(scale_widget)
-        right_col_layout.addLayout(gauge_and_scale)
+        # Score thresholds legend (3 milestones with labels)
+        thresholds_layout = QHBoxLayout()
+        thresholds_layout.setSpacing(8)
+        thresholds_layout.setContentsMargins(0, 5, 0, 0)
+        
+        # Threshold 1: < 3.0 - POTENTIALLY UNSAFE (Red)
+        threshold1_container = QVBoxLayout()
+        threshold1_container.setSpacing(2)
+        threshold1_container.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        threshold1 = QLabel("< 3.0")
+        threshold1.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        threshold1.setFixedWidth(100)
+        threshold1.setStyleSheet(f"""
+            background-color: #ff4444;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 4px 6px;
+            border-radius: 4px;
+        """)
+        
+        threshold1_label = QLabel("POTENTIALLY\nUNSAFE")
+        threshold1_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        threshold1_label.setFixedWidth(100)
+        threshold1_label.setStyleSheet(f"""
+            color: #ff4444;
+            font-size: 9px;
+            font-weight: bold;
+            line-height: 1.1;
+        """)
+        
+        threshold1_container.addWidget(threshold1)
+        threshold1_container.addWidget(threshold1_label)
+        
+        # Threshold 2: 3.0-4.0 - USE WITH CAUTION (Yellow)
+        threshold2_container = QVBoxLayout()
+        threshold2_container.setSpacing(2)
+        threshold2_container.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        threshold2 = QLabel("3.0 - 4.0")
+        threshold2.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        threshold2.setFixedWidth(100)
+        threshold2.setStyleSheet(f"""
+            background-color: #ffaa00;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 4px 6px;
+            border-radius: 4px;
+        """)
+        
+        threshold2_label = QLabel("USE WITH\nCAUTION")
+        threshold2_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        threshold2_label.setFixedWidth(100)
+        threshold2_label.setStyleSheet(f"""
+            color: #ffaa00;
+            font-size: 9px;
+            font-weight: bold;
+            line-height: 1.1;
+        """)
+        
+        threshold2_container.addWidget(threshold2)
+        threshold2_container.addWidget(threshold2_label)
+        
+        # Threshold 3: > 4.0 - CAN BE TRUSTED (Green)
+        threshold3_container = QVBoxLayout()
+        threshold3_container.setSpacing(2)
+        threshold3_container.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        threshold3 = QLabel("> 4.0")
+        threshold3.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        threshold3.setFixedWidth(100)
+        threshold3.setStyleSheet(f"""
+            background-color: #00c851;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 4px 6px;
+            border-radius: 4px;
+        """)
+        
+        threshold3_label = QLabel("CAN BE\nTRUSTED")
+        threshold3_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        threshold3_label.setFixedWidth(100)
+        threshold3_label.setStyleSheet(f"""
+            color: #00c851;
+            font-size: 9px;
+            font-weight: bold;
+            line-height: 1.1;
+        """)
+        
+        threshold3_container.addWidget(threshold3)
+        threshold3_container.addWidget(threshold3_label)
+        
+        thresholds_layout.addLayout(threshold1_container)
+        thresholds_layout.addLayout(threshold2_container)
+        thresholds_layout.addLayout(threshold3_container)
+        
+        right_col_layout.addLayout(thresholds_layout)
 
         self.btn_details = QPushButton("Show details >>")
         self.btn_details.setCursor(Qt.CursorShape.PointingHandCursor)
@@ -1194,7 +1240,7 @@ class SearchResultsPage(QWidget):
             self.btn_details.setText("Show details >>")
 
     def on_reviews_changed(self):
-        """Recalculate the 'User review' component and update overall score/UI."""
+        """Recalculate the 'User review' component and update overall score/UI with animations."""
         try:
             from backend import calculate_score
             from . import scoring_system
@@ -1254,7 +1300,7 @@ class SearchResultsPage(QWidget):
         self.descriptions = details
         self.error_modules = error_modules
 
-        # Update gauge
+        # Update gauge with animation
         try:
             if hasattr(self, 'gauge'):
                 self.gauge.target_score = self.score if self.score is not None else 0.0
@@ -1262,8 +1308,8 @@ class SearchResultsPage(QWidget):
         except Exception:
             pass
 
-        # Update each criterion's label and progress bar
-        for name, widgets in self.criteria_widgets.items():
+        # Update each criterion's label and progress bar with animation
+        for i, (name, widgets) in enumerate(self.criteria_widgets.items()):
             try:
                 btn_name, p_bar = widgets
                 weight = SCORE_WEIGHTS.get(name, 0.0)
@@ -1276,18 +1322,24 @@ class SearchResultsPage(QWidget):
 
                 # Update label text + style
                 if has_error:
-                    new_text = f"❌ {icon} {name} <b>({percentage:.0f}%)</b> <i style='color:{cf.ERROR_TEXT};'>(Error)</i>"
+                    new_text = f"❌ {name} <b>({percentage:.0f}%)</b> <i style='color:{cf.ERROR_TEXT};'>(Error)</i>"
                     label_color = cf.ERROR_TEXT
                 elif has_no_data:
-                    new_text = f"⚠️ {icon} {name} <b>({percentage:.0f}%)</b> <i style='color:{cf.WARNING_TEXT};'>(No data)</i>"
+                    new_text = f"⚠️ {name} <b>({percentage:.0f}%)</b> <i style='color:{cf.WARNING_TEXT};'>(No data)</i>"
                     label_color = cf.WARNING_TEXT
                 else:
                     comp_val = self.criteria.get(name, 0.0)
-                    new_text = f"{icon} {name} <b>({percentage:.0f}%)</b>"
+                    new_text = f"{name} <b>({percentage:.0f}%)</b>"
                     label_color = cf.DARK_TEXT
 
                 btn_name.setText(new_text)
-                btn_name.setStyleSheet(f"color: {label_color}; font-size: 14px; padding: 2px; border: none;")
+                btn_name.setStyleSheet(f"""
+                    color: {label_color}; 
+                    font-size: 14px; 
+                    padding: 2px; 
+                    border: none;
+                    text-align: left;
+                """)
                 tooltip_text = "Click to learn about " + name
                 if has_error:
                     tooltip_text += " (Module failed - excluded from score)"
@@ -1313,13 +1365,29 @@ class SearchResultsPage(QWidget):
                     bar_bg = cf.PREVIEW_BG
                     bar_chunk = cf.HEADER_BACKGROUND
 
-                p_bar.setStyleSheet(f"QProgressBar {{ border: 1px solid {cf.BORDER_COLOR}; border-radius: 5px; text-align: center; color: black; background-color: {bar_bg}; font-size: 11px; }} QProgressBar::chunk {{ background-color: {bar_chunk}; border-radius: 5px; }}")
+                p_bar.setStyleSheet(f"""
+                    QProgressBar {{
+                        border: 1px solid {cf.BORDER_COLOR}; 
+                        border-radius: 5px; 
+                        text-align: center; 
+                        color: black; 
+                        background-color: {bar_bg}; 
+                        font-size: 11px;
+                    }}
+                    QProgressBar::chunk {{
+                        background-color: {bar_chunk}; 
+                        border-radius: 5px;
+                    }}
+                """)
                 p_bar.setProperty("target_value", new_value)
+                
+                # Animate with staggered delay (100ms per item)
                 try:
-                    p_bar.animateTo(new_value)
+                    QTimer.singleShot(i * 100, lambda bar=p_bar, val=new_value: bar.animateTo(val))
                 except Exception:
                     p_bar.setValue(new_value)
-            except Exception:
+            except Exception as e:
+                print(f"Error updating criterion {name}: {e}")
                 continue
 
     def show_criteria_info(self, criteria_name):

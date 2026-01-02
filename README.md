@@ -227,7 +227,7 @@ Edit `backend/config.py`:
 
 ```python
 SCORE_WEIGHTS = {
-    'Reputation DB': 2.0,
+    'Reputation Databases': 2.0,
     'AI analysis': 1.5,
     'Domain age': 1.0,
     'SSL certificate': 1.2,

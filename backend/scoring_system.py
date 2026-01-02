@@ -227,10 +227,10 @@ def get_results(url: str, timeout: int = 30, retry_count: int = 3, screenshot_en
             max_retries=retry_count, 
             module_name='HTML content and behavior'
         ),
-        'Reputation DB': lambda: execute_with_retry(
+        'Reputation Databases': lambda: execute_with_retry(
             lambda: calculate_score.reputationDB_score(url=url), 
             max_retries=retry_count, 
-            module_name='Reputation DB'
+            module_name='Reputation Databases'
         ),
         'Domain pattern': lambda: execute_with_retry(
             lambda: calculate_score.domain_pattern_score(url=url), 

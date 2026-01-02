@@ -8,7 +8,7 @@ SCORE_WEIGHTS = {
     'HTML content and behavior':    0.7,
     'Protocol security':            0.8,
     'AI analysis':                  1.5,
-    'Reputation DB':                2.0,
+    'Reputation Databases':                2.0,
     'User review':                  0.1
 }
 
