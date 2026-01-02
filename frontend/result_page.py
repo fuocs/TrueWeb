@@ -72,86 +72,86 @@ class ClickableLabel(QLabel):
 # Simple explanations for all users (non-IT, children, elders)
 CRITERIA_EXPLANATIONS = {
     'Certificate details': {
-        'title': 'Safety Lock Check',
+        'title': 'Certificate Details (Safety Lock Check)',
         'simple': 'Like checking if a store has a real business license on the wall.',
         'details': [
-            '✅ <b>Safe:</b> Has official papers proving identity',
-            '❌ <b>Why Dangerous?</b> Scammers hide who they are! Without proof of identity, they can steal your money and disappear. Real companies always show their license.',
-            '⚠️ <b>Phishing Trick:</b> Fake websites pretend to be your bank but have no real license - they just want to steal your password!'
+            '<b>Safe:</b> Has official papers proving identity',
+            '<b>Why Dangerous?</b> Scammers hide who they are! Without proof of identity, they can steal your money and disappear. Real companies always show their license.',
+            '<b>Phishing Trick:</b> Fake websites pretend to be your bank but have no real license - they just want to steal your password!'
         ]
     },
     'Server reliablity': {
-        'title': 'Website Speed & Stability',
+        'title': 'Server Reliability (Website Speed & Stability)',
         'simple': 'Like checking if a store is always open and working properly.',
         'details': [
-            '✅ <b>Good:</b> Opens fast and works smoothly',
-            '❌ <b>Why Suspicious?</b> Scammers use cheap/bad computers that break often! They don\'t care about quality because they\'re only trying to trick you quickly.',
-            '⚠️ <b>Warning Sign:</b> Very slow websites might be infected with viruses or secretly stealing your information in the background!'
+            '<b>Good:</b> Opens fast and works smoothly',
+            '<b>Why Suspicious?</b> Scammers use cheap/bad computers that break often! They don\'t care about quality because they\'re only trying to trick you quickly.',
+            '<b>Warning Sign:</b> Very slow websites might be infected with viruses or secretly stealing your information in the background!'
         ]
     },
     'Domain age': {
-        'title': 'How Old Is This Website?',
+        'title': 'Domain Age (How old is this website?)',
         'simple': 'Like trusting your favorite old restaurant more than a brand new one that opened yesterday.',
         'details': [
-            '✅ <b>Safe:</b> Been here 5+ years (old and trusted)',
-            '❌ <b>Why Dangerous?</b> Scammers make NEW websites every day! When people discover the scam, they throw away the website and make a new one with a different name.',
-            '⚠️ <b>Red Flag:</b> Website just created yesterday? Could be a trap to steal money from people who don\'t check!'
+            '<b>Safe:</b> Been here 5+ years (old and trusted)',
+            '<b>Why Dangerous?</b> Scammers make NEW websites every day! When people discover the scam, they throw away the website and make a new one with a different name.',
+            '<b>Red Flag:</b> Website just created yesterday? Could be a trap to steal money from people who don\'t check!'
         ]
     },
     'Domain pattern': {
-        'title': 'Does the Name Look Fake?',
+        'title': 'Domain Pattern (Does the name look fake?)',
         'simple': 'Like seeing a fake "Walmart" spelled "Wa1mart" or "Wal-Mart-cheap.com".',
         'details': [
-            '✅ <b>Real:</b> Name spelled correctly',
-            '❌ <b>Why Phishing?</b> Scammers copy famous names to trick you! They use "Paypa1.com" (with number 1) instead of "Paypal.com" hoping you won\'t notice.',
-            '⚠️ <b>Common Trick:</b> Adding extra words like "secure-login-amazon.com" - looks safe but it\'s NOT the real Amazon!'
+            '<b>Real:</b> Name spelled correctly',
+            '<b>Why Phishing?</b> Scammers copy famous names to trick you! They use "Paypa1.com" (with number 1) instead of "Paypal.com" hoping you won\'t notice.',
+            '<b>Common Trick:</b> Adding extra words like "secure-login-amazon.com" - looks safe but it\'s NOT the real Amazon!'
         ]
     },
     'HTML content and behavior': {
-        'title': 'Does the Page Look Real?',
+        'title': 'HTML Content and Behavior (Does the page look real?)',
         'simple': 'Like checking if a store looks clean and organized, or messy and shady.',
         'details': [
-            '✅ <b>Professional:</b> Looks nice and organized',
-            '❌ <b>Why Malware?</b> Fake "Download" buttons install viruses on your computer! Too many ads means they\'re trying to trick you into clicking dangerous links.',
-            '⚠️ <b>Danger Signs:</b> Windows popping up saying "Your computer has virus!" - that\'s the REAL virus trying to scare you!'
+            '<b>Professional:</b> Looks nice and organized',
+            '<b>Why Malware?</b> Fake "Download" buttons install viruses on your computer! Too many ads means they\'re trying to trick you into clicking dangerous links.',
+            '<b>Danger Signs:</b> Windows popping up saying "Your computer has virus!" - that\'s the REAL virus trying to scare you!'
         ]
     },
     'Protocol security': {
-        'title': 'Is Your Info Private?',
+        'title': 'Protocol Security (Is your info private?)',
         'simple': 'Like talking in a locked room (private) vs. shouting in a busy street (everyone hears).',
         'details': [
-            '✅ <b>Safe:</b> Info is secret (lock symbol 🔒)',
-            '❌ <b>Why Steal Info?</b> Without encryption, hackers sitting in cafes can SEE your password when you type it! They can steal your bank account, email, everything!',
-            '⚠️ <b>Big Danger:</b> Typing passwords on sites without 🔒 = giving your keys to strangers on the street!'
+            '<b>Safe:</b> Info is secret (lock symbol)',
+            '<b>Why Steal Info?</b> Without encryption, hackers sitting in cafes can SEE your password when you type it! They can steal your bank account, email, everything!',
+            '<b>Big Danger:</b> Typing passwords on sites without lock symbol = giving your keys to strangers on the street!'
         ]
     },
     'AI analysis': {
-        'title': 'Smart Computer Check',
+        'title': 'AI Analysis (Smart computer check)',
         'simple': 'Our smart computer reads the website and warns about lies and scams.',
         'details': [
-            '<b>🔍 Scam Words We Look For:</b>',
-            '✦ "You won $1000!" = Lie to get your info',
-            '✦ "Hurry! Only 5 minutes!" = Fake rush so you don\'t think carefully',
-            '✦ "Enter your bank card" = Stealing your money directly!',
-            '✦ Bad spelling = Real companies hire professional writers. Scammers don\'t care about quality.'
+            '<b>Scam Words We Look For:</b>',
+            '• "You won $1000!" = Lie to get your info',
+            '• "Hurry! Only 5 minutes!" = Fake rush so you don\'t think carefully',
+            '• "Enter your bank card" = Stealing your money directly!',
+            '• Bad spelling = Real companies hire professional writers. Scammers don\'t care about quality.'
         ]
     },
     'Reputation DB': {
-        'title': 'What Do Others Say?',
+        'title': 'Reputation DB (What do others say?)',
         'simple': 'Like reading restaurant reviews before eating there - do people say good or bad things?',
         'details': [
-            '✅ <b>Clean:</b> Nobody reported as dangerous',
-            '❌ <b>Why Blacklisted?</b> Security companies found this site stealing passwords, installing viruses, or taking money without sending products!',
-            '⚠️ <b>Warning:</b> If many people got scammed here, you will too! They won\'t suddenly become honest.'
+            '<b>Clean:</b> Nobody reported as dangerous',
+            '<b>Why Blacklisted?</b> Security companies found this site stealing passwords, installing viruses, or taking money without sending products!',
+            '<b>Warning:</b> If many people got scammed here, you will too! They won\'t suddenly become honest.'
         ]
     },
     'User review': {
-        'title': 'What Real People Say',
+        'title': 'User Review (What real people say)',
         'simple': 'Like reading what other customers say - did they have good or bad experience?',
         'details': [
-            '✅ <b>Many Happy People:</b> Good experiences',
-            '❌ <b>Why Trust Reviews?</b> Real people share their bad experiences to WARN others! If someone says "They stole my money!" - believe them and stay away!',
-            '⚠️ <b>Learn from Others:</b> Don\'t be the next victim - read what happened to people who trusted this site before!'
+            '<b>Many Happy People:</b> Good experiences',
+            '<b>Why Trust Reviews?</b> Real people share their bad experiences to WARN others! If someone says "They stole my money!" - believe them and stay away!',
+            '<b>Learn from Others:</b> Don\'t be the next victim - read what happened to people who trusted this site before!'
         ]
     }
 }
@@ -1363,7 +1363,7 @@ class SearchResultsPage(QWidget):
         left_layout.setContentsMargins(15, 15, 15, 15)
         left_layout.setSpacing(8)
         
-        check_title = QLabel("💡 Easy Explanation:")
+        check_title = QLabel("Easy Explanation:")
         check_title.setStyleSheet(f"font-size: 14px; font-weight: bold; color: {cf.DARK_TEXT}; background: transparent;")
         left_layout.addWidget(check_title)
         
