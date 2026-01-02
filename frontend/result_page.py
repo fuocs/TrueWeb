@@ -136,8 +136,8 @@ CRITERIA_EXPLANATIONS = {
             '• Bad spelling = Real companies hire professional writers. Scammers don\'t care about quality.'
         ]
     },
-    'Reputation DB': {
-        'title': 'Reputation DB (What do others say?)',
+    'Reputation Databases': {
+        'title': 'Reputation Databases (What do others say?)',
         'simple': 'Like reading restaurant reviews before eating there - do people say good or bad things?',
         'details': [
             '<b>Clean:</b> Nobody reported as dangerous',
@@ -916,13 +916,68 @@ class SearchResultsPage(QWidget):
 
         sys_container.addWidget(self.preview_container)
 
-        # Gauge + Button Details
+        # Gauge + Button Details + Scale Legend
         right_col_layout = QVBoxLayout()
         right_col_layout.setSpacing(5)
         right_col_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
+        # Horizontal container for gauge and scale
+        gauge_and_scale = QHBoxLayout()
+        gauge_and_scale.setSpacing(20)
+        gauge_and_scale.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
         self.gauge = ScoreGauge(self.score)
-        right_col_layout.addWidget(self.gauge, 0, Qt.AlignmentFlag.AlignCenter)
+        gauge_and_scale.addWidget(self.gauge, 0, Qt.AlignmentFlag.AlignCenter)
+
+        # Create scale legend
+        scale_widget = QWidget()
+        scale_widget.setFixedWidth(150)
+        scale_layout = QVBoxLayout(scale_widget)
+        scale_layout.setSpacing(8)
+        scale_layout.setContentsMargins(0, 10, 0, 10)
+
+        # Title for scale
+        scale_title = QLabel("Score Scale:")
+        scale_title.setStyleSheet(f"font-size: 11px; font-weight: bold; color: {cf.DARK_TEXT};")
+        scale_layout.addWidget(scale_title)
+
+        # Three thresholds
+        thresholds = [
+            ("< 3.0", "POTENTIALLY\nUNSAFE", cf.UNSAFE),
+            ("3.0 - 4.0", "USE WITH\nCAUTION", cf.CAUTION),
+            ("> 4.0", "CAN BE\nTRUSTED", cf.TRUSTED)
+        ]
+
+        for score_range, label_text, color in thresholds:
+            threshold_frame = QFrame()
+            threshold_frame.setStyleSheet(f"""
+                QFrame {{
+                    background-color: {color};
+                    border-radius: 4px;
+                    padding: 4px;
+                }}
+            """)
+            threshold_layout = QVBoxLayout(threshold_frame)
+            threshold_layout.setContentsMargins(6, 4, 6, 4)
+            threshold_layout.setSpacing(2)
+
+            # Score range
+            range_label = QLabel(score_range)
+            range_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            range_label.setStyleSheet("font-size: 9px; font-weight: bold; color: white; background: transparent;")
+            threshold_layout.addWidget(range_label)
+
+            # Status text
+            status_label = QLabel(label_text)
+            status_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            status_label.setWordWrap(True)
+            status_label.setStyleSheet("font-size: 8px; font-weight: bold; color: white; background: transparent;")
+            threshold_layout.addWidget(status_label)
+
+            scale_layout.addWidget(threshold_frame)
+
+        gauge_and_scale.addWidget(scale_widget)
+        right_col_layout.addLayout(gauge_and_scale)
 
         self.btn_details = QPushButton("Show details >>")
         self.btn_details.setCursor(Qt.CursorShape.PointingHandCursor)
@@ -965,7 +1020,7 @@ class SearchResultsPage(QWidget):
         criteria_names = [
             'Certificate details', 'Server reliablity', 'Domain age',
             'Domain pattern', 'HTML content and behavior', 'Protocol security',
-            'AI analysis', 'Reputation DB', 'User review'
+            'AI analysis', 'Reputation Databases', 'User review'
         ]
 
         self.criteria_bars = []
