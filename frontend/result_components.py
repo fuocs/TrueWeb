@@ -125,6 +125,7 @@ class ImagePopup(QDialog):
         self.btn_prev = QPushButton("◀")
         self.btn_prev.setFixedSize(50, 50)
         self.btn_prev.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.btn_prev.setFocusPolicy(Qt.FocusPolicy.NoFocus)  # Prevent button from taking focus
         self.btn_prev.clicked.connect(self._prev_image)
         self.btn_prev.setStyleSheet(f"""
             QPushButton {{
@@ -134,13 +135,17 @@ class ImagePopup(QDialog):
                 border-radius: 25px;
                 font-size: 20px;
                 font-weight: bold;
+                outline: none;
             }}
             QPushButton:hover {{
                 background-color: {cf.BUTTON_BACKGROUND};
                 border-color: {cf.BUTTON_BACKGROUND};
             }}
+            QPushButton:focus {{
+                outline: none;
+                border: 2px solid white;
+            }}
         """)
-        self.btn_prev.hide()  # Show on hover
         
         nav_layout.addWidget(self.btn_prev)
         nav_layout.addStretch()
@@ -149,6 +154,7 @@ class ImagePopup(QDialog):
         self.btn_next = QPushButton("▶")
         self.btn_next.setFixedSize(50, 50)
         self.btn_next.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.btn_next.setFocusPolicy(Qt.FocusPolicy.NoFocus)  # Prevent button from taking focus
         self.btn_next.clicked.connect(self._next_image)
         self.btn_next.setStyleSheet(f"""
             QPushButton {{
@@ -158,13 +164,17 @@ class ImagePopup(QDialog):
                 border-radius: 25px;
                 font-size: 20px;
                 font-weight: bold;
+                outline: none;
             }}
             QPushButton:hover {{
                 background-color: {cf.BUTTON_BACKGROUND};
                 border-color: {cf.BUTTON_BACKGROUND};
             }}
+            QPushButton:focus {{
+                outline: none;
+                border: 2px solid white;
+            }}
         """)
-        self.btn_next.hide()  # Show on hover
         
         nav_layout.addWidget(self.btn_next)
         
@@ -175,10 +185,6 @@ class ImagePopup(QDialog):
         # Animation for smooth transitions
         self.slide_animation = None
         self.is_animating = False
-        
-        # Mouse tracking for navigation buttons
-        self.image_container.setMouseTracking(True)
-        self.image_container.installEventFilter(self)
         
         container_layout.addWidget(self.image_stack)
         container_layout.addWidget(nav_widget)
@@ -202,6 +208,9 @@ class ImagePopup(QDialog):
         # Load all images
         self._load_images()
         self._update_display()
+        
+        # Set focus to dialog for keyboard events
+        self.setFocus()
     
     def _load_images(self):
         """Load all screenshots into stacked widget"""
@@ -367,18 +376,6 @@ class ImagePopup(QDialog):
         if delta > 0:  # Zooming in
             scroll_area.horizontalScrollBar().setValue(int(scroll_x * zoom_factor))
             scroll_area.verticalScrollBar().setValue(int(scroll_y * zoom_factor))
-    
-    def eventFilter(self, obj, event):
-        """Show/hide navigation buttons on mouse hover"""
-        if obj == self.image_container:
-            if event.type() == QEvent.Type.Enter:
-                if len(self.screenshots) > 1:
-                    self.btn_prev.show()
-                    self.btn_next.show()
-            elif event.type() == QEvent.Type.Leave:
-                self.btn_prev.hide()
-                self.btn_next.hide()
-        return super().eventFilter(obj, event)
     
     def keyPressEvent(self, event):
         """Handle keyboard navigation with animation"""
