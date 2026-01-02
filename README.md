@@ -64,7 +64,7 @@ TrueWeb-GUI/
 
 #### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/TrueWeb.git
+git clone https://github.com/fuocs/TrueWeb.git
 cd TrueWeb
 ```
 
@@ -104,8 +104,14 @@ cp .env.example .env
 Edit `.env` and add your API keys:
 
 ```env
-# Groq AI API Keys (comma-separated for load balancing)
-GROQ_API_KEY=key1,key2,key3,key4,key5,key6,key7,key8,key9,key10
+# Firebase Admin SDK (for Database & User Creation)
+SERVICE_ACCOUNT_CONFIG='{"type":"service_account","project_id":"your_project",...}'
+
+# Google OAuth Client Config
+GOOGLE_CLIENT_CONFIG='{"web":{"client_id":"...","client_secret":"..."}}'
+
+# Firebase Web API Key (for Login/Authentication)
+FIREBASE_WEB_API_KEY=your_firebase_web_api_key
 
 # VirusTotal API Key
 VIRUSTOTAL_API_KEY=your_virustotal_api_key
@@ -113,23 +119,17 @@ VIRUSTOTAL_API_KEY=your_virustotal_api_key
 # Google Safe Browsing API Key
 GOOGLE_SAFE_BROWSING_API_KEY=your_gsb_api_key
 
-# Firebase Configuration
-FIREBASE_API_KEY=your_firebase_api_key
-FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-FIREBASE_DATABASE_URL=https://your_project.firebaseio.com
-FIREBASE_PROJECT_ID=your_project_id
-FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-FIREBASE_APP_ID=your_app_id
+# Groq AI API Keys (comma-separated for load balancing)
+GROQ_API_KEY=key1,key2,key3,key4,key5,key6,key7,key8,key9,key10
 ```
 
 **📌 Getting API Keys:**
-- **Groq**: Sign up at https://console.groq.com
-- **VirusTotal**: https://www.virustotal.com/gui/join-us
-- **Google Safe Browsing**: https://developers.google.com/safe-browsing
+- **Groq**: Sign up at https://console.groq.com/keys
+- **VirusTotal**: https://www.virustotal.com/gui/my-apikey
+- **Google Safe Browsing**: https://console.cloud.google.com/
 - **Firebase**: Create project at https://console.firebase.google.com
 
-Also place your `serviceAccountKey.json` in the root directory (download from Firebase Console).
+**Note**: For `SERVICE_ACCOUNT_CONFIG`, download the JSON from Firebase Console → Project Settings → Service Accounts → Generate new private key, then paste as a single-line string.
 
 #### 5. Run the Application
 ```bash
@@ -359,7 +359,7 @@ SOFTWARE.
 
 ## 📞 Support
 
-- **Issues**: Report bugs on [GitHub Issues](https://github.com/yourusername/TrueWeb/issues)
+- **Issues**: Report bugs on [GitHub Issues](https://github.com/fuocs/TrueWeb/issues)
 - **Documentation**: See [ENV_SETUP.md](backend/ENV_SETUP.md) for detailed environment setup
 
 ## 🔒 Security Notice
