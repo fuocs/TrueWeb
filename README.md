@@ -3,7 +3,7 @@
 **Advanced Website Security Analysis Tool** - A comprehensive desktop application with browser extension for real-time website safety assessment.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![PyQt6](https://img.shields.io/badge/PyQt6-6.10%2B-green.svg)](https://www.riverbankcomputing.com/software/pyqt/)
 
 ## 🌟 Features
@@ -26,8 +26,8 @@
 
 ```
 TrueWeb-GUI/
-├── app.py                  # Main application entry point
-├── main.py                 # Alternative launcher
+├── main.py                 # Main application entry point
+├── app.py                  # Application controller
 ├── backend/                # Core analysis modules
 │   ├── scoring_system.py   # Orchestrates security checks
 │   ├── reputation.py       # VirusTotal & Safe Browsing
@@ -50,10 +50,10 @@ TrueWeb-GUI/
 
 ## 📋 Prerequisites
 
-- **Python**: 3.10 or higher (recommended: 3.11 or 3.12)
+- **Python**: 3.10 or higher
 - **Operating System**: Windows 10/11, macOS 10.14+, or Linux (Ubuntu 20.04+)
 - **API Keys** (required):
-  - Groq API keys (10 recommended for load balancing)
+  - Groq API keys (multiple keys = fewer rate limits)
   - VirusTotal API key
   - Google Safe Browsing API key
   - Firebase credentials
@@ -62,9 +62,11 @@ TrueWeb-GUI/
 
 ### Option 1: Using `uv` (Recommended - Fast & Cross-Platform)
 
-[`uv`](https://docs.astral.sh/uv/) is a fast Python package manager that works on all platforms.
+[`uv`](https://docs.astral.sh/uv/) is an extremely fast Python package and project manager, written in Rust. It's 10-100x faster than `pip` and replaces `pip`, `pip-tools`, `pipx`, `poetry`, `pyenv`, `virtualenv`, and more.
 
 #### 1. Install uv
+
+**Standalone Installers (Recommended):**
 
 **Windows (PowerShell):**
 ```powershell
@@ -75,6 +77,22 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
+
+**Or install via PyPI:**
+```bash
+# With pip
+pip install uv
+
+# Or pipx (isolated installation)
+pipx install uv
+```
+
+**Update uv (if installed via standalone installer):**
+```bash
+uv self update
+```
+
+📖 **Full installation guide:** https://docs.astral.sh/uv/getting-started/installation/
 
 #### 2. Clone and Setup
 ```bash
@@ -88,7 +106,7 @@ cd TrueWeb
 uv sync
 
 # Run the application
-uv run python app.py
+uv run python main.py
 ```
 
 That's it! `uv` automatically handles Python version management, virtual environment creation, and dependency installation.
@@ -96,16 +114,16 @@ That's it! `uv` automatically handles Python version management, virtual environ
 **Alternative commands:**
 ```bash
 # Run directly without activating venv
-uv run python app.py
+uv run python main.py
 
 # Or activate venv first, then run normally
 # Windows:
 .venv\Scripts\activate
-python app.py
+python main.py
 
 # macOS/Linux:
 source .venv/bin/activate
-python app.py
+python main.py
 ```
 
 ### Option 2: Using pip (Traditional)
@@ -136,19 +154,23 @@ pip install -r requirements.txt
 
 #### 4. Run the Application
 ```bash
-python app.py
+python main.py
 ```
 
 ### Configure Environment Variables (Required for both methods)
 
-Create a `.env` file in the `backend/` directory:
+**⚠️ IMPORTANT:** The `.env` file must be created in the `backend/` directory.
 
 ```bash
-cd backend
-cp .env.example .env
+# From project root, copy template to backend/
+cp .env.example backend/.env
+
+# Then edit backend/.env with your API keys
 ```
 
-Edit `.env` and add your API keys:
+For detailed setup instructions, see [ENV_SETUP.md](ENV_SETUP.md)
+
+Quick reference - Edit `backend/.env` and add your API keys:
 
 ```env
 # Firebase Admin SDK (for Database & User Creation)
@@ -160,10 +182,10 @@ GOOGLE_CLIENT_CONFIG='{"web":{"client_id":"...","client_secret":"..."}}'
 # Firebase Web API Key (for Login/Authentication)
 FIREBASE_WEB_API_KEY=your_firebase_web_api_key
 
-# VirusTotal API Key
+# VirusTotal API Key (PRIMARY - Required)
 VIRUSTOTAL_API_KEY=your_virustotal_api_key
 
-# Google Safe Browsing API Key
+# Google Safe Browsing API Key (OPTIONAL - Secondary check)
 GOOGLE_SAFE_BROWSING_API_KEY=your_gsb_api_key
 
 # Groq AI API Keys (comma-separated for load balancing)
@@ -171,19 +193,30 @@ GROQ_API_KEY=key1,key2,key3,key4,key5,key6,key7,key8,key9,key10
 ```
 
 **📌 Getting API Keys:**
-- **Groq**: Sign up at https://console.groq.com/keys
-- **VirusTotal**: https://www.virustotal.com/gui/my-apikey
-- **Google Safe Browsing**: https://console.cloud.google.com/
+
+#### Required APIs:
+- **Groq AI** (Primary): Sign up at https://console.groq.com/keys
+- **VirusTotal** (PRIMARY reputation check): https://www.virustotal.com/gui/my-apikey
 - **Firebase**: Create project at https://console.firebase.google.com
 
-**Note**: For `SERVICE_ACCOUNT_CONFIG`, download the JSON from Firebase Console → Project Settings → Service Accounts → Generate new private key, then paste as a single-line string.
+#### Optional APIs:
+- **Google Safe Browsing** (OPTIONAL - Secondary reputation check):
+  1. Visit: https://console.cloud.google.com/apis/library/safebrowsing.googleapis.com?project=gen-lang-client-0432606952
+  2. Click **"Enable"** button to activate the API
+  3. **Set up OAuth consent screen** (if first time):
+     - Go to "OAuth consent screen" in left menu
+     - Choose "External" user type
+     - Fill in required fields (app name, email)
+  4. Click **"Credentials"** in left menu
+  5. Click **"+ CREATE CREDENTIALS"** button at top
+  6. Select **"API key"** from dropdown
+  7. Copy your new API key
+  
+  **Note**: Google Safe Browsing is a secondary check. If you skip this, TrueWeb will still work using VirusTotal as the primary reputation database.
+
+**Firebase Setup Note**: For `SERVICE_ACCOUNT_CONFIG`, download the JSON from Firebase Console → Project Settings → Service Accounts → Generate new private key, then paste as a single-line string.
 
 #### 5. Run the Application
-```bash
-python app.py
-```
-
-Or:
 ```bash
 python main.py
 ```
@@ -285,16 +318,6 @@ THRESHOLDS = {
     'unsafe': 3.0,
     'caution': 4.0,
 }
-```
-
-### Adjusting AI Model
-
-In `backend/AI_confidence.py`, you can change the Groq model:
-
-```python
-model="llama-3.3-70b-versatile"  # Default
-# or
-model="mixtral-8x7b-32768"
 ```
 
 ## 🐛 Troubleshooting
