@@ -29,7 +29,6 @@ __pycache__/
 .DS_Store
 *.zip
 pip
-uv.lock
 
 # Logs
 *.log
