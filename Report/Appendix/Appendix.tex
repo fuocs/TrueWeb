@@ -1,0 +1,45 @@
+\chapter{Appendix}
+
+\section{Project Source Structure}
+This appendix summarizes the main source folders of the \textbf{TrueWeb} project and their responsibilities.
+
+\begin{itemize}
+    \item \textbf{backend/}: Core website analysis and scoring logic.
+    \begin{itemize}
+        \item Reputation checks (e.g., Google Safe Browsing / VirusTotal integration).
+        \item URL parsing, pattern analysis, WHOIS lookup, SSL/TLS checks.
+        \item Screenshot capture and HTML heuristic analysis.
+        \item Trust score aggregation.
+    \end{itemize}
+
+    \item \textbf{frontend/}: Desktop UI (PyQt6) and user interaction.
+    \begin{itemize}
+        \item Main window, loading/result pages, settings.
+        \item System tray behavior and notification flow.
+        \item User review and feedback UI.
+    \end{itemize}
+
+    \item \textbf{extension/}: Browser extension for quick URL collection.
+    \begin{itemize}
+        \item Captures/forwards URLs to the local desktop integration server.
+        \item Supports global shortcut integration (depending on browser permissions).
+    \end{itemize}
+\end{itemize}
+
+\section{Key Runtime Behavior}
+\begin{itemize}
+    \item \textbf{Input:} URL collected from manual input or browser extension.
+    \item \textbf{Processing:} Backend modules fetch metadata (WHOIS/SSL/IP/HTML/reputation) and compute a trust score on a 0.0--5.0 scale.
+    \item \textbf{Output:} UI displays score, risk indicators, and recommended actions.
+\end{itemize}
+
+\section{Keyboard Shortcut (Extension)}
+Depending on the browser and extension configuration, TrueWeb supports a shortcut such as \texttt{Ctrl+Shift+Space} for quick URL forwarding.
+
+\section{Build and Run Notes}
+\begin{itemize}
+    \item \textbf{Dependencies:} Python 3.x and required packages listed in \texttt{requirements.txt}.
+    \item \textbf{Run (development):} Start the application entry point (e.g., \texttt{main.py}) after installing dependencies.
+    \item \textbf{Packaging:} The project can be bundled into an executable using \textbf{PyInstaller} (see the provided spec file if available).
+    \item \textbf{Configuration:} API keys and environment variables should be managed via a \texttt{.env} file based on \texttt{backend/.env.example}.
+\end{itemize}

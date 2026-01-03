@@ -1,0 +1,99 @@
+\section*{Objectives}
+
+\subsection*{Technical Safety}
+
+\begin{enumerate}
+    \item \textbf{Scanning the website}
+    \begin{itemize}
+        \item \textbf{Goal:} Getting website technical information to evaluate website reliability.
+        \item \textbf{Technical details:}
+        \begin{itemize}
+            \item Scan for server’s IP, protocol security, domain age, domain pattern, and certificate details.
+            \item Integrate with trusted APIs such as \textbf{Google AI studio} to check for \textbf{"evil kerning"}\footnote{https://office-watch.com/2025/evil-kerning-phishing-scam/} or typo-based phishing.
+            \item Utilize \textbf{reputation databases} and \textbf{user feedback} to enhance detection accuracy.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Evaluate website reliability (Trust Score System)}
+    \begin{itemize}
+        \item \textbf{Goal:} Calculate trust score for the website based on multiple criteria.
+        \item \textbf{Technical details:}
+        \begin{itemize}
+            \item Use features collected from website scanning and external reputation sources.
+            \item Assign a numerical trust score (0.0-5.0) indicating safety level.
+        \end{itemize}
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Content Safety}
+
+\begin{enumerate}
+    \item \textbf{Analyze and provide suggestions}
+    \begin{itemize}
+        \item \textbf{Goal:} Suggest alternative trustworthy websites when a malicious one is detected.
+        \item \textbf{Technical details:}
+        \begin{itemize}
+            \item Determine the website's topic (e.g., shopping, banking, news) by analyzing it's content(text, image, name of website) via \textbf{Gemini} API.
+            \item Warn the user when the website contains NSFW\footnote{Not Safe For Work} content. 
+            \item Use \textbf{Gemini} API for similar website recommendation.
+            \item Notify users via popup with 3–5 suggested sites.
+        \end{itemize}
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Others}
+
+\begin{enumerate}
+    \item \textbf{Run continuously in the background}
+    \begin{itemize}
+        \item \textbf{Goal:} Ensure the application operates continuously and monitors URLs clicked by the user.
+        \item \textbf{Technical details:}
+        \begin{itemize}
+            \item Runs as a \textbf{background service} (Windows Service) or \textbf{system tray application}.
+        \end{itemize}
+    \end{itemize}
+
+    % \item \textbf{Settings menu}
+    % \begin{itemize}
+    %     \item \textbf{Goal:} Allow users to enable or disable specific features.
+    %     \item \textbf{Technical details:}
+    %     \begin{itemize}
+    %         \item Options include:
+    %         \begin{itemize}
+    %             \item Enable/disable real-time notifications.
+    %             \item Enable/disable advanced content scanning.
+    %             \item Add personal whitelist domains.
+    %         \end{itemize}
+    %         \item Settings stored in \textbf{JSON} or \textbf{SQLite}.
+    %         \item Possible UI technologies: \textbf{React + TailwindCSS (Electron)} or \textbf{PyQt5/Tkinter (Python)}.
+    %     \end{itemize}
+    % \end{itemize}
+
+    \item \textbf{User Interface (UI)}
+    \begin{itemize}
+        \item \textbf{Goal:} Provide a simple, intuitive, and user-friendly interface.
+        \item \textbf{Technical details:}
+        \begin{itemize}
+            \item Dashboard features:
+            \begin{itemize}
+                \item URL input field for manual testing.
+                \item Recent websites list with trust scores.
+                \item Color-coded alerts (green/yellow/red).
+                % \item Trust score trend visualization (\textbf{Chart.js} or \textbf{Recharts}).
+            \end{itemize}
+            \item UI implementation options: \textbf{PyQt6}.
+            
+            \item User Experience enhancements:
+            \begin{itemize}
+                \item Tooltips explaining trust score.
+                \item Change background color (Dark/Light).
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+    \item \textbf{Performance}
+    \begin{itemize}
+        \item \textbf{High accuracy:} The analysis must be as precise as possible when evaluating website reliability or providing recommendations.
+        \item \textbf{Low latency:} Perform analysis and return results quickly.
+        \item \textbf{High performance:} The software should consume minimal system resources (CPU, RAM) to ensure smooth operation.
+    \end{itemize}
+\end{enumerate}

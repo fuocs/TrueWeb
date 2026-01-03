@@ -1,0 +1,215 @@
+\section{User Interface Design and Implementation}
+
+This section presents the visual implementation of TrueWeb's user interface, demonstrating the practical realization of the system's features through a comprehensive PyQt6-based desktop application and a Chrome/Edge browser extension.
+
+\subsection{Desktop Application Interface}
+
+\subsubsection{Main Window and URL Input Interface}
+The main window serves as the primary entry point for user interaction. It features a clean, minimalist design that allows users to input URLs for analysis either manually or through the integrated browser extension.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{main_window.png}
+    \caption{TrueWeb Main Window - URL Input Interface}
+    \label{fig:main-window}
+\end{figure}
+
+The main window incorporates:
+\begin{itemize}
+    \item A prominent URL input field with real-time validation
+    \item Quick access to analysis history
+    \item Navigation menu for accessing different application sections
+    \item System status indicator showing connection to the browser extension
+\end{itemize}
+
+\subsubsection{Loading and Analysis Progress Interface}
+During website analysis, the application displays a responsive loading interface that provides real-time feedback on the analysis progress, keeping users informed about the ongoing evaluation process.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{loading_page.png}
+    \caption{Analysis Progress Interface with Real-time Status Updates}
+    \label{fig:loading-interface}
+\end{figure}
+
+Key features of the loading interface include:
+\begin{itemize}
+    \item Progress indicators for each analysis module
+    \item Estimated time remaining
+    \item Visual feedback for completed and ongoing checks
+    \item Option to cancel the analysis process
+\end{itemize}
+
+\subsubsection{Result Page and Trust Score Visualization}
+The result page presents the comprehensive analysis outcome in an intuitive, visually accessible format. The trust score is displayed prominently along with detailed breakdowns of each evaluation criterion.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{result_page.png}
+    \caption{Analysis Result Page with Trust Score and Detailed Breakdown}
+    \label{fig:result-page}
+\end{figure}
+
+The result interface provides:
+\begin{itemize}
+    \item A large, color-coded trust score (0.0--5.0 scale)
+    \item Individual scores for each evaluation criterion with visual indicators
+    \item Expandable sections containing detailed analysis explanations
+    \item Recommended actions based on the safety assessment
+    \item Screenshot previews of the analyzed website across multiple device types
+\end{itemize}
+
+\subsubsection{Multi-Device Screenshot Preview}
+To enable users to inspect website layouts without direct exposure to potential threats, TrueWeb captures and displays screenshots across Desktop, Tablet, and Mobile viewports.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{screenshot_preview.png}
+    \caption{Multi-Device Screenshot Preview (Desktop, Tablet, Mobile)}
+    \label{fig:screenshot-preview}
+\end{figure}
+
+\subsubsection{Community Review System Interface}
+The user review system integrates Firebase authentication and enables community-driven safety ratings. Users can authenticate via Google to share their experiences and read reviews from other community members.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{user_review.png}
+    \caption{Community Review Interface with Firebase Authentication}
+    \label{fig:user-review}
+\end{figure}
+
+Features of the review system include:
+\begin{itemize}
+    \item Google Sign-In integration for secure authentication
+    \item Star rating system (1--5 stars)
+    \item Text-based review submission
+    \item Chronological display of community reviews
+    \item Review statistics and aggregated ratings
+\end{itemize}
+
+\subsubsection{Write Review Interface}
+The write review interface provides an intuitive form for users to contribute their safety assessments and experiences with analyzed websites.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{write_review.png}
+    \caption{Write Review Interface for Community Contributions}
+    \label{fig:write-review}
+\end{figure}
+
+\subsubsection{Settings and Theme Configuration}
+TrueWeb supports Light and Dark theme modes to accommodate user preferences and reduce eye strain during extended usage. The settings page also provides configuration options for background operation and notification preferences.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{settings_page.png}
+    \caption{Settings Interface with Light/Dark Theme Toggle}
+    \label{fig:settings-page}
+\end{figure}
+
+Configuration options include:
+\begin{itemize}
+    \item Theme selection (Light/Dark mode)
+    \item System tray behavior and background operation settings
+    \item Notification preferences
+    \item Extension connection status
+    \item Application version and update information
+\end{itemize}
+
+\subsubsection{Login and Authentication Interface}
+For users wishing to participate in the community review system, TrueWeb provides a streamlined authentication interface powered by Firebase and Google OAuth.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{login_page.png}
+    \caption{Login Interface with Google Authentication}
+    \label{fig:login-page}
+\end{figure}
+
+\subsection{Browser Extension Interface}
+
+\subsubsection{Extension Popup and Quick Actions}
+The browser extension provides seamless integration with the desktop application, enabling users to analyze URLs directly from their browser context without switching applications.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{extension_popup.png}
+    \caption{Browser Extension Popup Interface}
+    \label{fig:extension-popup}
+\end{figure}
+
+Extension capabilities include:
+\begin{itemize}
+    \item One-click analysis of the current active tab
+    \item Global keyboard shortcut (\texttt{Ctrl+Shift+Space}) for rapid analysis
+    \item Context menu integration for analyzing links without navigation
+    \item Real-time connection status with the desktop application
+    \item Quick access to recent analysis results
+\end{itemize}
+
+\subsubsection{Extension Context Menu Integration}
+The extension integrates with the browser's context menu, allowing users to analyze any link by right-clicking without having to visit the potentially dangerous website first.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{extension_context_menu.png}
+    \caption{Browser Extension Context Menu Integration}
+    \label{fig:extension-context-menu}
+\end{figure}
+
+\subsection{System Tray Integration}
+
+\subsubsection{Background Operation Mode}
+When minimized to the system tray, TrueWeb continues to operate in the background, maintaining its integration server to receive URLs from the browser extension while consuming minimal system resources.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{system_tray.png}
+    \caption{System Tray Icon and Menu}
+    \label{fig:system-tray}
+\end{figure}
+
+System tray features include:
+\begin{itemize}
+    \item Quick restore to main window
+    \item Analysis status indicator
+    \item Quick exit option
+    \item Recent analysis access
+\end{itemize}
+
+\subsection{Responsive Design and Accessibility}
+
+The user interface is designed with responsiveness and accessibility in mind:
+\begin{itemize}
+    \item \textbf{Consistent Layout:} All interface elements follow a consistent design language, ensuring predictable navigation and interaction patterns.
+    \item \textbf{Visual Hierarchy:} Critical information such as trust scores and risk warnings are prominently displayed using size, color, and positioning.
+    \item \textbf{Color-Coded Indicators:} Safety levels are represented through intuitive color schemes (red for high risk, yellow for moderate risk, green for safe).
+    \item \textbf{Tooltips and Help Text:} Complex technical information is accompanied by explanatory tooltips to assist users with varying levels of technical expertise.
+    \item \textbf{Keyboard Navigation:} All major functions can be accessed via keyboard shortcuts for improved accessibility.
+\end{itemize}
+
+\subsection{Implementation Technology Stack}
+
+The user interface is implemented using the following technologies:
+
+\begin{itemize}
+    \item \textbf{PyQt6:} Primary framework for desktop application development, providing native-looking widgets and cross-platform compatibility.
+    \item \textbf{Qt Designer:} Used for rapid prototyping and layout design of complex interfaces.
+    \item \textbf{QSS (Qt Style Sheets):} Custom styling for implementing Light/Dark themes and maintaining consistent visual design.
+    \item \textbf{JavaScript/HTML/CSS:} Browser extension development using standard web technologies and Chrome Extension APIs.
+    \item \textbf{Selenium WebDriver:} Screenshot capture functionality across multiple viewport sizes.
+\end{itemize}
+
+\subsection{UI Performance Optimization}
+
+To ensure a smooth user experience, several optimization techniques are employed:
+
+\begin{itemize}
+    \item \textbf{Asynchronous Loading:} Heavy operations such as screenshot generation and API calls are performed in background threads to prevent UI freezing.
+    \item \textbf{Progressive Rendering:} Analysis results are displayed progressively as individual modules complete, rather than waiting for all checks to finish.
+    \item \textbf{Image Caching:} Screenshots and icons are cached locally to reduce redundant network requests.
+    \item \textbf{Lazy Loading:} Detailed analysis information is loaded on-demand when users expand specific sections, reducing initial rendering time.
+\end{itemize}
+
+The user interface implementation successfully translates the system's technical capabilities into an accessible, visually appealing, and efficient user experience that caters to both novice and advanced users.

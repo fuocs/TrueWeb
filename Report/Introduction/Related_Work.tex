@@ -1,0 +1,33 @@
+\section{Related Work}
+
+\subsection{Overview of Phishing Website Detection}
+
+Phishing websites are malicious web pages designed to impersonate legitimate online services in order to deceive users into revealing sensitive information such as login credentials, personal data, or financial details \cite{li2024phishing}. Unlike traditional malware attacks, phishing relies heavily on social engineering techniques, making detection more challenging. In addition, phishing websites are often short-lived and frequently change their domain names and hosting infrastructure, further complicating detection efforts \cite{li2024phishing}.
+
+Recent studies indicate that no single detection technique can effectively address all phishing scenarios. As a result, modern phishing detection systems typically employ a combination of blacklist-based approaches, heuristic analysis, and machine learning or AI-based methods to improve detection accuracy and robustness \cite{li2024phishing}.
+
+\subsection{Blacklist and Reputation-based Approaches}
+
+Blacklist-based and reputation-based approaches are among the earliest techniques used to detect phishing websites. These methods rely on databases of known malicious URLs or domains maintained by security organizations, browser vendors, and threat intelligence platforms \cite{li2024phishing}. Incoming URLs are compared against these databases, and warnings are issued if a match is found.
+
+Such approaches provide fast and accurate detection for previously reported phishing websites. However, their effectiveness is limited when dealing with newly created or zero-day phishing sites that have not yet been indexed in reputation databases. Survey studies highlight that attackers frequently exploit this limitation by rapidly changing domains or hosting environments to evade blacklist-based detection \cite{li2024phishing}.
+
+\subsection{Heuristic-based Detection Methods}
+
+Heuristic-based detection methods analyze structural and behavioral characteristics of websites to identify phishing indicators without relying on predefined blacklists. According to comprehensive survey studies, phishing websites often exhibit abnormal URL structures, including typosquatting, excessive URL length, the use of special characters, and misleading subdomain patterns \cite{li2024phishing}.
+
+One commonly observed heuristic is typosquatting, where attackers deliberately register domain names that closely resemble legitimate brands through misspellings or character substitutions, such as using ``paypa1.com'' instead of ``paypal.com'' \cite{li2024phishing}. In addition, phishing URLs are frequently excessively long and contain multiple subdomains or uncommon top-level domains (TLDs) such as ``.xyz'', ``.info'', or ``.click''. These characteristics are intentionally designed to obscure the true domain and mislead users \cite{li2024phishing}.
+
+Beyond URL-based features, heuristic-based approaches also examine HTML characteristics, including suspicious form behaviors, excessive external links, hidden elements, and abnormal redirection mechanisms \cite{li2024phishing}. Certificate-based heuristics further analyze SSL certificate properties, such as certificate issuer credibility, certificate age, and protocol usage, to detect deceptive use of HTTPS \cite{li2024phishing}. While heuristic-based methods are effective at detecting previously unseen phishing websites, they may introduce false positives when legitimate websites exhibit similar characteristics.
+
+\subsection{Machine Learning and AI-based Approaches}
+
+Machine learning and AI-based approaches have been increasingly applied to phishing website detection to overcome the limitations of rule-based heuristics. These methods typically extract features from URLs, HTML content, or webpage text and use classification models to distinguish between legitimate and phishing websites \cite{li2024phishing}.
+
+Advanced AI-based techniques enable the identification of complex patterns and contextual cues that are difficult to capture through handcrafted rules alone. Content-based analysis, in particular, allows the detection of phishing intent through linguistic features, semantic inconsistencies, and persuasive language commonly used in phishing campaigns \cite{li2024phishing}. However, such approaches often require large labeled datasets, significant computational resources, and careful model tuning. In addition, their decision-making processes may lack transparency, making them less interpretable for end users.
+
+\subsection{Discussion and Motivation for the Solution}
+
+The reviewed studies demonstrate that each phishing detection approach has inherent strengths and limitations. Blacklist-based methods are effective for known threats but ineffective against newly created phishing websites. Heuristic-based techniques provide broader coverage and can detect zero-day phishing attacks but may suffer from false positives. AI-based approaches offer powerful pattern recognition capabilities but depend heavily on data availability and computational resources \cite{li2024phishing}.
+
+Motivated by these observations, this project adopts a hybrid detection strategy that combines heuristic-based analysis with AI-based content evaluation. By integrating multiple complementary techniques, the proposed approach aims to provide a more comprehensive and robust assessment of website safety while maintaining usability and efficiency for everyday users.

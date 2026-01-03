@@ -1,0 +1,9 @@
+This report presents the development of TrueWeb, a desktop application designed to evaluate and detect potentially malicious websites before users access them. TrueWeb was implemented in Python\cite{python} using the PyQt6\cite{pyqt6} framework and integrates both technical safety analysis and content-based evaluation.
+
+This system integrates both\textbf{ technical safety} and \textbf{content safety} analysis. By retrieving a website’s technical data (e.g., protocol type, SSL certificate validity, domain age, and reputation), the system computes a \textbf{trust score} based on a weighted scoring model. TrueWeb uses \textbf{Google AI Studio} API for detecting typo-based phishing, suspicious content, and for recommending safer alternative websites. The GUI, built with PyQt6, provides a user-friendly interface that provides real-time alerts, trust indicators, and recommendation feedback.
+
+TrueWeb was designed following object-oriented principles and modular architecture, with UML diagrams used to model system structure and workflow. The application successfully integrates multi-layer analysis — technical, heuristic, and AI-assisted — into a single lightweight tool, offering an effective approach to enhancing user web-browsing safety.
+
+The results demonstrate that TrueWeb provides accurate and timely warnings for unsafe domains and contributes to a more secure browsing experience.
+
+

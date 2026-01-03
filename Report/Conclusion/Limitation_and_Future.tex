@@ -1,0 +1,53 @@
+\section{Limitations and Future Work}
+\label{sec:limitations-future}
+
+Although TrueWeb provides a practical and effective multi-layer assessment of website safety, the current implementation has several limitations that present opportunities for further improvement.
+
+\subsection{Goals Achieved}
+\begin{itemize}
+	\item \textbf{Real-time URL analysis.} The system supports on-demand scanning and produces a consolidated safety assessment for a target URL.
+
+	\item \textbf{Transparent scoring presentation.} The result view exposes the final score together with module-level evidence and progress indicators, improving interpretability.
+
+	\item \textbf{User-oriented experience.} The desktop application emphasizes a lightweight and intuitive workflow, including flexible authentication (e.g., email and Google sign-in) and quick access to results.
+\end{itemize}
+
+\subsection{Limitations}
+\begin{itemize}
+	\item \textbf{Dependence on external services.} Reputation checks and AI-based content analysis rely on third-party APIs. Rate limits, quota exhaustion, or service outages may reduce available evidence. Although the system degrades gracefully, detection accuracy may still be affected.
+
+	\item \textbf{Compatibility issues across websites.} Certain analysis criteria may not function correctly on specific websites due to unconventional structures, aggressive anti-bot mechanisms, or restricted content access.
+
+	\item \textbf{Dynamic and JavaScript-rendered pages.} Many modern websites rely heavily on client-side rendering. Static HTML fetching may therefore extract limited visible content, reducing the effectiveness of HTML heuristics and AI-based content analysis.
+
+	\item \textbf{Performance latency.} While concurrency and parallel execution are employed, overall response time can still be slower than optimal, particularly when multiple external APIs are queried simultaneously.
+
+	\item \textbf{WHOIS coverage and ccTLD policies.} Domain age and registration information depend on WHOIS or RDAP availability. Some country-code TLDs (e.g., \texttt{.vn}) restrict automated access or provide limited data, leading to incomplete signals.
+
+	\item \textbf{Anti-bot protection and CAPTCHA challenges.} Some websites actively block automated clients (bot detection, CAPTCHA, Cloudflare challenges, login-gates). In these cases, TrueWeb may fail to fetch the real HTML content or only retrieve a challenge page, reducing the effectiveness of HTML-based heuristics and AI-based content analysis.
+
+	\item \textbf{Background mode is Windows-focused.} The current build and user experience are primarily validated on Windows, including system-tray behavior and packaging. Running the application as a non-intrusive background utility on other operating systems may require additional platform-specific integration and testing.
+
+	\item \textbf{Limited ground truth for user reviews.} Crowdsourced feedback is sparse for less popular domains. The current approach avoids unfair penalties by excluding missing data but reduces the strength of this signal.
+
+	\item \textbf{Local integration security model.} Communication between the browser extension and desktop application relies on a shared local token, which is sufficient for a prototype but not ideal for production-grade deployment.
+\end{itemize}
+
+\subsection{Future Work}
+\begin{itemize}
+	\item \textbf{Performance optimization.} Further reduce analysis latency through improved caching, smarter scheduling of external API calls, and adaptive concurrency strategies.
+
+	\item \textbf{Comprehensive threat protection.} Extend detection capabilities to cover a broader range of threats, including malware distribution, scam campaigns, and evolving phishing techniques beyond URL-based attacks.
+
+	\item \textbf{Advanced scoring engine.} Enhance the scoring framework with adaptive or context-aware weighting strategies that adjust to emerging attack patterns and real-world traffic distributions.
+
+	\item \textbf{Improved rendering and content extraction.} Integrate lightweight rendering techniques or headless browsers to better analyze JavaScript-heavy websites and improve coverage for modern web applications.
+
+	\item \textbf{Stronger local bridge security.} Replace static authentication tokens with per-session credentials, introduce rate limiting, and add audit logging for localhost communication.
+
+	\item \textbf{Explainability and transparency.} Provide clearer explanations and confidence indicators that help users understand which criteria influenced the final trust score.
+
+	\item \textbf{Extension and platform enhancement.} Improve browser extension capabilities and expand cross-platform support while preserving user privacy and system performance.
+
+	\item \textbf{Cross-platform background operation.} Improve system tray and background execution support across operating systems (startup behavior, notifications, and permission models), ensuring consistent extension-to-app workflows beyond Windows.
+\end{itemize}

@@ -242,10 +242,10 @@ def get_results(url: str, timeout: int = 30, retry_count: int = 3, screenshot_en
             max_retries=retry_count, 
             module_name='AI analysis'
         ),
-        'Server reliablity': lambda: execute_with_retry(
+        'Server reliability': lambda: execute_with_retry(
             lambda: calculate_score.server_reliability_score(website_info=web_info), 
             max_retries=retry_count, 
-            module_name='Server reliablity'
+            module_name='Server reliability'
         ),
         'Domain age': lambda: execute_with_retry(
             lambda: calculate_score.domain_age_score(website_info=web_info), 

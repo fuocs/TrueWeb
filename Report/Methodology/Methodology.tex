@@ -1,0 +1,123 @@
+% The \textbf{TrueWeb }system is designed to automatically analyze and evaluate the safety of a website prior to user access. The methodology of the proposed system consists of data gathering, trustworthiness score definition, heuristic-based security analysis, AI-based detection, and user notification. The overall workflow of the system is illustrated in Figure~\ref{fig:app-diagram}.
+
+
+% \section{Application Diagram}
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.9\textwidth]{diagram.png}
+%     \caption{Overall workflow of the TrueWeb system.}
+%     \label{fig:app-diagram}
+% \end{figure}
+
+
+
+
+\section{Data Gathering}
+
+When a user accesses a website, TrueWeb automatically collects essential technical and contextual information associated with the URL. The collected data serves as the input for subsequent analysis and scoring processes and includes the following elements:
+
+
+\begin{itemize}
+    \item \textbf{URL structure, protocol type, and SSL/TLS status:}
+    The system identifies whether the website uses HTTP or HTTPS and verifies the presence and validity of SSL/TLS certificates.
+
+    \item \textbf{Domain registration information:}
+    A WHOIS lookup is performed to obtain domain registration and expiration dates. The domain age is calculated as an indicator of potential reliability.
+
+    \item \textbf{Domain reputation:}
+    Reputation information is retrieved from public security services such as Google Safe Browsing and VirusTotal to identify previously reported malicious activity.
+
+    \item \textbf{IP address and hosting information:}
+    The system analyzes the website’s IP address, hosting provider, geolocation, and redirection behavior to detect suspicious hosting patterns.
+\end{itemize}
+
+
+\section{Trustworthiness Scoring Overview}
+
+Once the data gathering phase is complete, TrueWeb proceeds to evaluate the collected information through a structured scoring framework. The outputs from both heuristic-based analysis modules and the AI-based detection component serve as input features for a centralized trustworthiness scoring system.
+
+Rather than relying on a single indicator, the scoring system takes a holistic approach by aggregating multiple security signals into a unified safety assessment. Each analysis module produces an intermediate subscore (ranging from 0.0 to 1.0), which reflects the degree to which the website satisfies a particular safety criterion. These subscores are then combined using a weighted aggregation formula to produce a final trust score on a 0.0--5.0 scale.
+
+This design allows TrueWeb to balance different types of risk indicators---some modules carry greater weight due to their reliability and importance (such as reputation database lookups), while others contribute supplementary signals (such as community reviews). The detailed scoring model, weighting rationale, and risk classification thresholds are described in Chapter~\ref{chap:scoring-system}.
+
+
+\section{Heuristic-based Security Analysis}
+
+Heuristic-based analysis applies rule-driven techniques to identify suspicious patterns commonly associated with phishing websites. Unlike machine learning approaches that require training data, heuristic methods rely on empirical observations and predefined rules derived from documented phishing characteristics. This approach provides consistent and explainable results, as each detection rule corresponds to a specific security concern.
+
+The following heuristic criteria are evaluated by TrueWeb:
+
+\begin{itemize}
+    \item \textbf{Domain pattern analysis:}
+    The system detects typographical impersonation (typosquatting) through character substitution, visually similar characters (e.g., ``rn'' resembling ``m''), or deceptive top-level domains (TLDs) such as ``.xyz'' or ``.io'' that are commonly abused by phishing campaigns.
+
+    \item \textbf{Domain age analysis:}
+    The domain registration age is evaluated using WHOIS data. Newly registered or short-lived domains are considered higher risk, as attackers frequently create disposable domains for phishing campaigns. Domains with a longer operational history are generally regarded as more trustworthy.
+
+    \item \textbf{Server reliability analysis:}
+    The system evaluates server-related indicators such as IP address stability, hosting provider reputation, geolocation consistency, and abnormal redirection behavior. Servers associated with frequent IP changes, hosting providers known for lax abuse policies, or excessive redirect chains are flagged as potentially unreliable.
+
+    \item \textbf{Certificate and encryption verification:}
+    SSL/TLS certificates are examined for issuer authenticity (whether issued by a trusted Certificate Authority), validity period, and encryption strength. Websites with missing, expired, or self-signed certificates are flagged as insecure, while valid certificates from recognized issuers contribute positively to the trust score.
+
+    \item \textbf{HTML content and behavioral analysis:}
+    The system examines HTML structures and behaviors to identify deceptive or malicious patterns. This includes analyzing form actions (e.g., forms submitting to external domains), link anomalies, hidden elements, and obfuscation techniques commonly used to disguise phishing content.
+
+    \item \textbf{Reputation-based verification:}
+    The system cross-references the website against external security databases, specifically VirusTotal and Google Safe Browsing, to identify known phishing websites, malware distribution sites, or previously reported threats. This criterion carries the highest weight due to its reliability.
+
+    \item \textbf{User review aggregation:}
+    TrueWeb incorporates a community-driven review system where authenticated users can submit safety ratings and feedback. While individual reviews may be subjective, the aggregated ratings provide valuable real-world signals about user experiences. This criterion is assigned a lower weight to prevent manipulation from unduly affecting the final score.
+\end{itemize}
+
+\section{AI-based Detection and Recommendation}
+
+In addition to rule-based heuristic analysis, TrueWeb incorporates an AI-powered module to enhance detection accuracy for threats that may evade predefined rules. This module functions as a complementary component, analyzing website content and contextual information to generate an AI confidence subscore that contributes to the overall trustworthiness assessment.
+
+\subsection{Content Analysis Capabilities}
+
+The AI module leverages the Groq Cloud API to perform deep analysis of website textual content. Specifically, it evaluates:
+
+\begin{itemize}
+    \item \textbf{Phishing Intent Detection:} The model analyzes linguistic patterns, urgency cues, and contextual similarities to identify content that attempts to deceive users into revealing sensitive information.
+    
+    \item \textbf{Brand Impersonation:} The system detects attempts to impersonate legitimate organizations (e.g., banks, social media platforms, e-commerce sites) by analyzing textual references, visual branding claims, and contextual inconsistencies.
+    
+    \item \textbf{Content Toxicity Assessment:} The module evaluates content for harmful material across multiple categories, including explicit/NSFW\footnote{Not Safe For Work, referring to content that may be inappropriate for viewing in professional or public environments, including explicit, offensive, or sensitive material.} content, violence, hate speech, and self-harm promotion. Each category is assigned a severity score from 0 (safe) to 4 (severe/prohibited).
+    
+    \item \textbf{Scam and Fraud Indicators:} Language patterns associated with financial scams, illegal activities, or deceptive schemes are identified and flagged.
+\end{itemize}
+
+\subsection{Alternative Website Recommendations}
+
+When the AI module detects brand impersonation or identifies high-risk behavior (severity score of 4), it generates recommendations for official or trustworthy alternative websites related to the same topic. For example, if a phishing site impersonates a banking institution, the system may recommend the official bank website. This feature assists users in navigating to legitimate resources rather than simply warning them away from the malicious site.
+
+\subsection{Score Integration}
+
+The AI analysis results are mapped to a safety subscore (0.0--1.0) that is integrated into the weighted scoring system described in Chapter~\ref{chap:scoring-system}. Higher severity scores from the AI module result in lower safety subscores, reflecting increased risk. The AI analysis criterion is assigned a weight of 1.5, recognizing its importance in detecting sophisticated threats while acknowledging that AI predictions may occasionally produce false positives.
+
+
+
+
+\section{User Notification and Result Presentation}
+
+The final stage of the TrueWeb workflow involves presenting the analysis results to users in a clear and actionable format. Once all scoring modules have completed their evaluations, the system generates a comprehensive security report that includes:
+
+\begin{itemize}
+    \item \textbf{Trust Score Display:} A prominent numerical score (0.0--5.0) accompanied by a visual gauge indicator, allowing users to quickly assess the overall safety level at a glance.
+    
+    \item \textbf{Risk Level Classification:} A color-coded status label (Trusted, Caution, or Unsafe) that provides an immediate interpretation of the numerical score.
+    
+    \item \textbf{Detailed Breakdown:} An expandable section showing the individual subscores from each analysis module, enabling users to understand which specific factors contributed to the final assessment.
+    
+    \item \textbf{AI-Generated Summary:} A concise, human-readable explanation of the website's content and any identified risks, produced by the AI analysis module.
+    
+    \item \textbf{Alternative Recommendations:} When high-risk behavior or brand impersonation is detected, the system suggests official or trustworthy alternative websites to guide users toward safer options.
+    
+    \item \textbf{Multi-Device Screenshots:} Preview images of the website rendered across different device profiles (Desktop, Tablet, Mobile), allowing users to inspect the site's appearance without direct exposure.
+\end{itemize}
+
+This multi-layered presentation ensures that both novice users (who may rely primarily on the overall score) and technically-inclined users (who prefer detailed breakdowns) can make informed decisions before accessing a potentially risky website.
+
+

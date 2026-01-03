@@ -1,0 +1,223 @@
+\section{System Overview}
+\subsection{Objectives}
+
+The primary objective of the TrueWeb system is to assist users in evaluating the safety of websites before accessing them. To achieve this goal, the system is designed with the following objectives:
+
+\subsubsection{Technical Safety Objectives}
+\begin{itemize}
+    \item Collect and analyze technical indicators of a website, including protocol security, SSL certificate validity, domain age, domain patterns, and server-related information.
+    \item Evaluate website reliability by aggregating multiple technical indicators into a numerical trust score that reflects the overall safety level.
+\end{itemize}
+
+\subsubsection{Content Safety Objectives}
+\begin{itemize}
+    \item Analyze website content to detect phishing intent, misleading information, or inappropriate content.
+    \item Provide users with warnings and recommendations for alternative trustworthy websites when potential risks are identified.
+\end{itemize}
+
+\subsubsection{System and Usability Objectives}
+\begin{itemize}
+    \item Ensure that the system operates efficiently with low latency and minimal resource consumption.
+    \item Provide a user-friendly and intuitive interface that presents safety results in a clear and understandable manner.
+\end{itemize}
+
+\subsection{Main Features}
+TrueWeb provides a comprehensive suite of security features designed to protect users from evolving online threats through an integrated desktop and browser ecosystem.
+
+\textbf{Key Features of TrueWeb:}
+\begin{itemize}
+    \item \textbf{AI-Powered Analysis:} Leverages Groq AI infrastructure with configurable language models (openai/gpt-oss-120b) to intelligently evaluate website content and detect sophisticated phishing or scamming patterns.
+
+    \item \textbf{Multi-Layer Security Scoring:} Computes a safety score (0.0–5.0) based on weighted factors: VirusTotal \& Google Safe Browsing reputation, SSL/TLS validity, domain age, and HTML heuristics.
+
+    \item \textbf{Browser Extension Integration: }Provides a Chrome/Edge extension for real-time URL analysis via global shortcuts \texttt{(Ctrl+Shift+Space)} and background communication with the desktop app.
+
+    \item \textbf{Safe Multi-Device Screenshots:} Automatically captures website previews across Desktop, Tablet, and Mobile views, allowing users to inspect site layouts without direct exposure to risks.
+
+    \item \textbf{Community Review System:} Features a Firebase-backed platform for users to authenticate via Google and share or read community-driven safety ratings and feedback.
+
+    \item \textbf{System Tray \& Modern UI:} Offers a responsive PyQt6 interface with Light/Dark modes and a system tray mode for non-intrusive background operation.
+
+    \item \textbf{Real-time Connectivity Check:} Instantly verifies website reachability and server status before performing deep analysis to ensure efficient processing.
+\end{itemize}
+
+\subsection{Target Users}
+The TrueWeb system is designed to serve a target user base exhibiting the following baseline technical proficiency and security awareness:
+\begin{itemize}
+    \item \textbf{Security Awareness:} Target users are assumed to possess foundational knowledge to identify potential risks associated with suspicious or unfamiliar URLs. They are expected to be capable of exercising caution regarding basic phishing indicators prior to utilizing the tool for in-depth verification. 
+    \item \textbf{Technical Proficiency:} Users are required to be proficient in fundamental computer skills to effectively interact with the system. Specifically, this includes the use of keyboard shortcuts, navigation of context menus (right-click operations), and the execution of copy-paste functions to input URLs into the analysis tool.
+\end{itemize}
+
+\subsection{Overall Architecture}
+
+TrueWeb follows a modular architecture consisting of several functional components. The system includes a user interface responsible for user interaction, an analysis engine that performs website evaluation, and supporting modules for AI-based analysis, reputation lookup, and trust score computation.
+
+The modular design allows each component to operate independently while contributing to the overall website safety assessment. This architecture improves maintainability, scalability, and ease of future extension.
+
+\subsection{Evaluation Criteria Overview}
+
+TrueWeb evaluates website safety based on a comprehensive set of criteria, each targeting a specific aspect of website reliability and security. These criteria were selected based on common phishing characteristics documented in cybersecurity literature and widely accepted web security practices. The final safety assessment is obtained by aggregating results from all criteria through a weighted trustworthiness scoring system.
+
+The nine evaluation criteria used in TrueWeb can be grouped into three categories:
+
+\textbf{Technical Security Indicators:}
+\begin{itemize}
+    \item \textbf{Protocol Security:} Evaluates whether the website enforces secure communication via HTTPS and implements proper security headers.
+    
+    \item \textbf{Certificate Details:} Examines SSL/TLS certificate validity, issuer authenticity, and encryption strength.
+    
+    \item \textbf{Server Reliability:} Analyzes server-related factors including IP stability, hosting provider reputation, geolocation consistency, and redirection behavior.
+\end{itemize}
+
+\textbf{Domain and Content Analysis:}
+\begin{itemize}
+    \item \textbf{Domain Age:} Assesses the registration age using WHOIS data. Newly registered domains are flagged as higher risk due to their frequent use in phishing campaigns.
+    
+    \item \textbf{Domain Pattern:} Detects typographical impersonation (typosquatting), visually similar characters, or suspicious top-level domains.
+    
+    \item \textbf{HTML Content \& Behavior:} Examines HTML structures for suspicious form actions, hidden elements, obfuscation techniques, and deceptive UI patterns.
+    
+    \item \textbf{AI-based Analysis:} Uses machine learning to analyze textual content, detect brand impersonation, and identify phishing intent or inappropriate content.
+\end{itemize}
+
+\textbf{External Reputation Sources:}
+\begin{itemize}
+    \item \textbf{Reputation Databases:} Cross-references the website against VirusTotal and Google Safe Browsing to identify known threats.
+    
+    \item \textbf{User Reviews:} Incorporates community-driven safety ratings from authenticated users to reflect real-world experiences.
+\end{itemize}
+
+Each criterion produces an intermediate subscore that contributes to the final trust score. The detailed analysis logic, scoring formulas, and weight assignments are described in Chapter~\ref{chap:scoring-system}.
+
+\subsection{System Workflow}
+The operational workflow of TrueWeb is structured into four distinct phases, ensuring a seamless transition from data acquisition to final security evaluation:
+
+\begin{itemize}
+    \item \textbf{Phase 1: URL Acquisition}
+    \begin{itemize}
+        \item \textbf{Manual Input:} Users directly enter a website URL into the application's primary interface.
+        \item \textbf{Extension Forwarding:} The browser extension intelligently extracts URLs from the user's web session and forwards them to the local integration server via the System Tray component.
+    \end{itemize}
+
+    \item \textbf{Phase 2: Data Collection}
+    \begin{itemize}
+        \item Upon receiving the URL, the system automatically gathers multi-dimensional technical data, including WHOIS domain registration details, SSL certificate status, HTML source code heuristics, and security protocol specifications.
+    \end{itemize}
+
+    \item \textbf{Phase 3: Analysis \& Evaluation}
+    \begin{itemize}
+        \item The collected data is processed through heuristic-based analysis modules to identify malicious patterns and redirections.
+        \item Simultaneously, AI-based components evaluate the website's content features to determine its legitimacy and reputation.
+    \end{itemize}
+
+    \item \textbf{Phase 4: Aggregation \& Scoring}
+    \begin{itemize}
+        \item In the final stage, the Scoring Module aggregates results from all analytical components to calculate a comprehensive \textit{Trust Score}. 
+        \item The system then generates and displays a detailed security report to the user through the application UI.
+    \end{itemize}
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{Images/system workflow.png}
+    \caption{System workflow of TrueWeb from URL input to security report generation}
+    \label{fig:system-workflow}
+\end{figure}
+
+% The workflow of TrueWeb begins when the user inputs a website URL into the application interface. The system then collects relevant information associated with the URL, including domain details, protocol type, SSL certificate information, and HTML characteristics.
+
+% In addition to manual input, TrueWeb supports a background workflow through the system tray. When running in tray mode, the desktop application can remain active while the main window is hidden, allowing the browser extension to forward URLs to the local integration server on \texttt{127.0.0.1}. This enables quick scans without requiring the user to keep the UI open at all times.
+
+% Next, the extracted data is processed by heuristic-based analysis modules and AI-based content evaluation components. The results from these analyses are aggregated by the scoring module to compute a final trust score.
+
+% Finally, the system presents the safety assessment, trust score, and explanatory information to the user through the graphical interface, allowing the user to decide whether to proceed with the website.
+
+\subsection{Project Scope}
+
+This section defines the boundaries of TrueWeb's functionality, clarifying what the system is designed to accomplish and what falls outside its intended purpose.
+
+\textbf{Within Scope:}
+\begin{itemize}
+    \item Evaluating the safety of a website based on its URL before user access.
+    \item Analyzing multiple technical indicators including protocol security, SSL certificate validity, domain age, domain patterns, server reliability, and HTML-based characteristics.
+    \item Integrating with external reputation databases (VirusTotal, Google Safe Browsing) to identify known threats.
+    \item Leveraging AI-based content analysis to detect phishing intent, brand impersonation, and inappropriate content.
+    \item Computing a comprehensive trust score using a weighted multi-criteria scoring model.
+    \item Providing users with detailed safety assessments, explanatory breakdowns, and alternative website recommendations.
+    \item Supporting browser integration through a Chrome/Edge extension for convenient URL forwarding.
+\end{itemize}
+
+\textbf{Out of Scope:}
+\begin{itemize}
+    \item The system does not actively block or modify user browsing behavior---it provides advisory information only.
+    \item Real-time traffic interception, proxy-based filtering, and packet-level analysis are not implemented.
+    \item Advanced malware reverse engineering, executable analysis, and sandbox-based behavioral testing are beyond the project scope.
+    \item The system does not guarantee 100\\% detection accuracy; sophisticated zero-day threats or novel attack vectors may evade detection.
+\end{itemize}
+
+\subsection{Technology Stack}
+
+The TrueWeb system is built using the following technologies, organized by functional category:
+
+\textbf{Core Platform:}
+\begin{itemize}
+    \item Programming Language: \textbf{Python 3.10+}
+    \item Package Management: \textbf{uv} (modern Python package manager)
+\end{itemize}
+
+\textbf{Frontend \& User Interface:}
+\begin{itemize}
+    \item GUI Framework: \textbf{PyQt6} (cross-platform desktop interface)
+    \item System Tray Integration: \textbf{QSystemTrayIcon} (background operation mode)
+    \item Image Processing: \textbf{Pillow} (screenshot handling and display)
+\end{itemize}
+
+\textbf{Backend \& Server:}
+\begin{itemize}
+    \item Local Server: \textbf{Flask} (HTTP server for browser extension integration)
+    \item HTTP Client: \textbf{requests, urllib3} (API calls and web requests)
+    \item Environment Configuration: \textbf{python-dotenv} (secrets management)
+\end{itemize}
+
+\textbf{Artificial Intelligence:}
+\begin{itemize}
+    \item AI Provider: \textbf{Groq Cloud API} (via \texttt{groq} Python client)
+    \item Model: \textbf{gpt-oss-120b} (default), configurable
+    \item Multi-key Load Balancing: Automatic rotation across 10 API keys
+\end{itemize}
+
+\textbf{Database \& Authentication:}
+\begin{itemize}
+    \item Cloud Platform: \textbf{Firebase} (Google Cloud)
+    \item Authentication: \textbf{Firebase Authentication} with \textbf{google-auth-oauthlib} (OAuth 2.0)
+    \item Database: \textbf{Firebase Realtime Database} (user reviews storage)
+\end{itemize}
+
+\textbf{Security Analysis \& Data Collection:}
+\begin{itemize}
+    \item Reputation Services: \textbf{VirusTotal API, Google Safe Browsing API}
+    \item SSL/TLS Analysis: \textbf{cryptography} (certificate validation)
+    \item WHOIS Lookup: \textbf{python-whois} (domain registration data)
+    \item DNS Resolution: \textbf{dnspython} (IP address lookup)
+    \item Domain Parsing: \textbf{tldextract} (TLD and subdomain extraction)
+\end{itemize}
+
+\textbf{Web Scraping \& Browser Automation:}
+\begin{itemize}
+    \item Browser Control: \textbf{Selenium WebDriver} with \textbf{webdriver-manager} (ChromeDriver auto-installation)
+    \item HTML Parsing: \textbf{BeautifulSoup4, lxml} (content extraction and analysis)
+    \item Multi-Device Rendering: 7 device profiles (Desktop, Tablet, Mobile)
+\end{itemize}
+
+\textbf{Browser Extension:}
+\begin{itemize}
+    \item Platform: \textbf{Chrome/Edge Manifest V3}
+    \item Communication: WebSocket to local Flask server (\texttt{127.0.0.1:38999})
+    \item Shortcut: \texttt{Ctrl+Shift+Space} for instant URL analysis
+\end{itemize}
+
+\textbf{Build \& Deployment:}
+\begin{itemize}
+    \item Executable Packaging: \textbf{PyInstaller} (standalone .exe generation)
+    \item Dependency Management: \textbf{requirements.txt}, \textbf{pyproject.toml}
+\end{itemize}

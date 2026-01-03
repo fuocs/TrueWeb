@@ -147,6 +147,16 @@ def take_screenshot(url: str, output_path: str = "screenshots/temp.png", timeout
                 chrome_options.add_argument("--disable-images")  # Speed up loading
                 chrome_options.page_load_strategy = 'eager'  # Don't wait for everything
                 
+                # SECURITY: Block all file downloads
+                prefs = {
+                    "download.default_directory": "/dev/null",  # Invalid path
+                    "download.prompt_for_download": False,
+                    "download.directory_upgrade": True,
+                    "safebrowsing.enabled": True,  # Block known malicious downloads
+                    "profile.default_content_setting_values.automatic_downloads": 2  # Block automatic downloads (2 = Block)
+                }
+                chrome_options.add_experimental_option("prefs", prefs)
+                
                 # Use pre-installed chromedriver path (no blocking call here)
                 service = Service(chromedriver_path)
                 driver = webdriver.Chrome(service=service, options=chrome_options)
