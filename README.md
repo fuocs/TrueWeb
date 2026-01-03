@@ -100,16 +100,23 @@ git clone https://github.com/fuocs/TrueWeb.git
 cd TrueWeb
 ```
 
-#### 3. Install Dependencies & Run
+#### 3. Install Dependencies
 ```bash
 # Create virtual environment and install all dependencies (automatic)
 uv sync
+```
 
-# Run the application
+#### 4. Configure Environment Variables
+⚠️ **Before running, you MUST set up your `.env` file!**
+
+See [Configure Environment Variables](#configure-environment-variables-required-for-both-methods) section below.
+
+#### 5. Run the Application
+```bash
 uv run python main.py
 ```
 
-That's it! `uv` automatically handles Python version management, virtual environment creation, and dependency installation.
+✅ That's it! `uv` automatically handles Python version management, virtual environment creation, and dependency installation.
 
 **Alternative commands:**
 ```bash
@@ -152,10 +159,18 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-#### 4. Run the Application
+#### 4. Configure Environment Variables
+
+⚠️ **Before running, you MUST set up your `.env` file!**
+
+See [Configure Environment Variables](#configure-environment-variables-required-for-both-methods) section below.
+
+#### 5. Run the Application
 ```bash
 python main.py
 ```
+
+---
 
 ### Configure Environment Variables (Required for both methods)
 
@@ -201,27 +216,31 @@ GROQ_API_KEY=key1,key2,key3,key4,key5,key6,key7,key8,key9,key10
 
 #### Optional APIs:
 - **Google Safe Browsing** (OPTIONAL - Secondary reputation check):
-  1. Visit: https://console.cloud.google.com/apis/library/safebrowsing.googleapis.com?project=gen-lang-client-0432606952
-  2. Click **"Enable"** button to activate the API
-  3. **Set up OAuth consent screen** (if first time):
+  1. Visit: https://console.cloud.google.com/apis/library/safebrowsing.googleapis.com
+  2. Select your Google Cloud project (or create a new one)
+  3. Click **"Enable"** button to activate the API
+  4. **Set up OAuth consent screen** (if first time):
      - Go to "OAuth consent screen" in left menu
      - Choose "External" user type
      - Fill in required fields (app name, email)
-  4. Click **"Credentials"** in left menu
-  5. Click **"+ CREATE CREDENTIALS"** button at top
-  6. Select **"API key"** from dropdown
-  7. Copy your new API key
+  5. Click **"Credentials"** in left menu
+  6. Click **"+ CREATE CREDENTIALS"** button at top
+  7. Select **"API key"** from dropdown
+  8. Copy your new API key
   
   **Note**: Google Safe Browsing is a secondary check. If you skip this, TrueWeb will still work using VirusTotal as the primary reputation database.
 
 **Firebase Setup Note**: For `SERVICE_ACCOUNT_CONFIG`, download the JSON from Firebase Console → Project Settings → Service Accounts → Generate new private key, then paste as a single-line string.
 
-#### 5. Run the Application
-```bash
-python main.py
-```
+---
 
-### Option 2: Build Standalone Executable
+### Option 3: Build Standalone Executable (For Distribution)
+
+If you want to distribute TrueWeb without requiring Python installation:
+
+#### Prerequisites
+- Complete **Option 1** or **Option 2** first (dependencies must be installed)
+- PyInstaller: `pip install pyinstaller`
 
 #### Build with PyInstaller
 
@@ -430,7 +449,7 @@ SOFTWARE.
 ## 📞 Support
 
 - **Issues**: Report bugs on [GitHub Issues](https://github.com/fuocs/TrueWeb/issues)
-- **Documentation**: See [ENV_SETUP.md](backend/ENV_SETUP.md) for detailed environment setup
+- **Documentation**: See [ENV_SETUP.md](ENV_SETUP.md) for detailed environment setup
 
 ## 🔒 Security Notice
 

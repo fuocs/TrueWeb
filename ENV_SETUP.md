@@ -34,7 +34,7 @@ TrueWeb-GUI/
    | `GOOGLE_CLIENT_CONFIG` | Google OAuth client config JSON | Google Cloud Console → Credentials |
    | `FIREBASE_WEB_API_KEY` | Firebase Web API key | Firebase Console → Project Settings → General |
    | `VIRUSTOTAL_API_KEY` | VirusTotal API key (PRIMARY) | [VirusTotal API](https://www.virustotal.com/gui/my-apikey) |
-   | `GOOGLE_SAFE_BROWSING_API_KEY` | Google Safe Browsing API (OPTIONAL) | [Setup Guide](https://console.cloud.google.com/apis/library/safebrowsing.googleapis.com?project=gen-lang-client-0432606952) |
+   | `GOOGLE_SAFE_BROWSING_API_KEY` | Google Safe Browsing API (OPTIONAL) | [Google Cloud Console](https://console.cloud.google.com/apis/library/safebrowsing.googleapis.com) |
    | `GROQ_API_KEY` | Groq AI API key(s) | [Groq Console](https://console.groq.com/keys) |
 
 3. **Multiple Groq API Keys (Recommended):**
@@ -50,11 +50,12 @@ TrueWeb-GUI/
    This is a secondary reputation check. If you skip this, TrueWeb will still work using VirusTotal.
    
    Steps to get API key:
-   1. Visit: https://console.cloud.google.com/apis/library/safebrowsing.googleapis.com?project=gen-lang-client-0432606952
-   2. Click **"Enable"** button
-   3. Set up OAuth consent screen (if first time)
-   4. Go to **"Credentials"** → **"+ CREATE CREDENTIALS"** → **"API key"**
-   5. Copy your API key
+   1. Visit: https://console.cloud.google.com/apis/library/safebrowsing.googleapis.com
+   2. Select your Google Cloud project (or create a new one)
+   3. Click **"Enable"** button
+   4. Set up OAuth consent screen (if first time)
+   5. Go to **"Credentials"** → **"+ CREATE CREDENTIALS"** → **"API key"**
+   6. Copy your API key
 
 5. **Important Security Notes:** 
    - The `backend/.env` file is in `.gitignore` and will NOT be committed to GitHub
