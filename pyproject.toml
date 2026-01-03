@@ -1,27 +1,98 @@
 [project]
-name = "computational-thinking-project"
-version = "0.1.0"
-description = "Add your description here"
+name = "trueweb"
+version = "1.0.0"
+description = "Advanced Website Security Analysis Tool - A comprehensive desktop application with browser extension for real-time website safety assessment"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "TrueWeb Contributors" }
+]
+keywords = ["security", "website-analysis", "phishing-detection", "pyqt6", "desktop-app"]
+
 dependencies = [
-    "beautifulsoup4>=4.14.2",
-    "dnspython>=2.8.0",
-    "firebase-admin>=7.1.0",
-    "flask>=3.1.2",
-    "google-auth-oauthlib>=1.2.3",
-    "google-cloud-firestore>=2.21.0",
-    "google-genai>=1.52.0",
-    "numpy>=2.3.5",
-    "playwright>=1.56.0",
-    "pyqt6>=6.10.0",
-    "pysocket>=0.35",
-    "python-dotenv>=1.2.1",
-    "python-whois>=0.9.6",
-    "requests>=2.32.5",
-    "selenium>=4.0.0",
-    "tldextract>=5.3.0",
-    "urllib3>=2.5.0",
+    # Core GUI
+    "PyQt6>=6.4.0",
+    "PyQt6-WebEngine>=6.4.0",
+    
+    # Web Server
+    "Flask>=2.3.0",
+    
+    # HTTP & Networking
+    "requests>=2.28.0",
+    "dnspython>=2.3.0",
+    
+    # Web Scraping & Parsing
+    "beautifulsoup4>=4.12.0",
+    "lxml>=4.9.0",
+    "tldextract>=3.4.0",
+    
+    # AI Integration
+    "groq>=0.4.0",
+    
+    # Firebase
+    "firebase-admin>=6.2.0",
+    "google-auth-oauthlib>=1.0.0",
+    "google-cloud-firestore>=2.11.0",
+    
+    # Image Processing
+    "Pillow>=9.5.0",
+    
+    # Screenshot Capture
+    "playwright>=1.35.0",
+    "selenium>=4.10.0",
     "webdriver-manager>=4.0.0",
-    "groq>=0.1.0",
+    
+    # SSL & Security
+    "certifi>=2023.7.0",
+    "cryptography>=41.0.0",
+    
+    # Environment
+    "python-dotenv>=1.0.0",
+    
+    # Utilities
+    "python-whois>=0.8.0",
+    "numpy>=1.24.0",
+]
+
+[project.scripts]
+trueweb = "app:main"
+
+[project.urls]
+Homepage = "https://github.com/fuocs/TrueWeb"
+Repository = "https://github.com/fuocs/TrueWeb"
+Issues = "https://github.com/fuocs/TrueWeb/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["backend", "frontend", "extension"]
+include = [
+    "app.py",
+    "main.py",
+    "requirements.txt",
+    "backend/**/*.py",
+    "frontend/**/*.py",
+    "frontend/media/**/*",
+    "extension/**/*",
+]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/backend",
+    "/frontend", 
+    "/extension",
+    "/app.py",
+    "/main.py",
+    "/requirements.txt",
+    "/README.md",
+    "/LICENSE",
+]
+
+[dependency-groups]
+dev = [
+    "pyinstaller>=6.0.0",
+    "pytest>=7.4.0",
 ]

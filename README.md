@@ -50,7 +50,7 @@ TrueWeb-GUI/
 
 ## 📋 Prerequisites
 
-- **Python**: 3.8 or higher
+- **Python**: 3.10 or higher (recommended: 3.11 or 3.12)
 - **Operating System**: Windows 10/11, macOS 10.14+, or Linux (Ubuntu 20.04+)
 - **API Keys** (required):
   - Groq API keys (10 recommended for load balancing)
@@ -60,7 +60,55 @@ TrueWeb-GUI/
 
 ## 🚀 Installation
 
-### Option 1: Run from Source (Development)
+### Option 1: Using `uv` (Recommended - Fast & Cross-Platform)
+
+[`uv`](https://docs.astral.sh/uv/) is a fast Python package manager that works on all platforms.
+
+#### 1. Install uv
+
+**Windows (PowerShell):**
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+**macOS/Linux:**
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+#### 2. Clone and Setup
+```bash
+git clone https://github.com/fuocs/TrueWeb.git
+cd TrueWeb
+```
+
+#### 3. Install Dependencies & Run
+```bash
+# Create virtual environment and install all dependencies (automatic)
+uv sync
+
+# Run the application
+uv run python app.py
+```
+
+That's it! `uv` automatically handles Python version management, virtual environment creation, and dependency installation.
+
+**Alternative commands:**
+```bash
+# Run directly without activating venv
+uv run python app.py
+
+# Or activate venv first, then run normally
+# Windows:
+.venv\Scripts\activate
+python app.py
+
+# macOS/Linux:
+source .venv/bin/activate
+python app.py
+```
+
+### Option 2: Using pip (Traditional)
 
 #### 1. Clone the Repository
 ```bash
@@ -86,13 +134,12 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Or using `uv` (faster):
+#### 4. Run the Application
 ```bash
-pip install uv
-uv pip install -r requirements.txt
+python app.py
 ```
 
-#### 4. Configure Environment Variables
+### Configure Environment Variables (Required for both methods)
 
 Create a `.env` file in the `backend/` directory:
 

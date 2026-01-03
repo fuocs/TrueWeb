@@ -4,10 +4,12 @@ PyQt6-WebEngine>=6.10.0
 Flask>=3.1.2
 requests>=2.32.5
 python-dotenv>=1.2.1
+urllib3>=2.2.0
 
 # Web Scraping & Parsing
 beautifulsoup4>=4.12.3
 lxml>=5.3.0
+tldextract>=5.0.0
 
 # AI & API Integration
 groq>=0.10.0
@@ -15,6 +17,11 @@ groq>=0.10.0
 # Firebase
 firebase-admin>=6.6.0
 Pyrebase4>=4.8.0
+google-auth-oauthlib>=1.2.0
+
+# Screenshot Capture
+selenium>=4.10.0
+webdriver-manager>=4.0.0
 
 # Image Processing
 Pillow>=11.1.0
