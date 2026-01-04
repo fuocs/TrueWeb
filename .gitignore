@@ -2,9 +2,6 @@
 .venv
 __pycache__
 .env
-# Ignore the report source and generated files (use rooted pattern)
-/Report/
-/Report/**
 backend/.env
 
 TrueWeb.code-workspace

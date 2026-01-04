@@ -168,9 +168,12 @@ def check_reputation(hostname: str, full_url: str) -> Dict[str, Any]:
     - Each vendor flag deducts 0.2
     - >= 5 vendors flagged = 0.0 score
     
+    IMPORTANT: If BOTH APIs fail/error, module returns NO-DATA marker
+    so it gets EXCLUDED from weighted average (not neutral 0.5).
+    
     Returns:
     Dict[str, Any]: {
-        "sub_score": float (0.0-1.0),
+        "sub_score": float (0.0-1.0) or None if no data,
         "details": list of strings for display
     }
     """
@@ -186,6 +189,22 @@ def check_reputation(hostname: str, full_url: str) -> Dict[str, Any]:
 
         vt_report = future_vt.result()
         gsb_report = future_gsb.result()
+
+    # Check if BOTH APIs failed/errored - if so, exclude from scoring
+    vt_is_error = vt_report["sub_score"] in [REPUTATION_SCORES["API_ERROR"], REPUTATION_SCORES["CONNECTION_ERROR"]] or \
+                  "not configured" in vt_report["details"].lower() or \
+                  "error" in vt_report["details"].lower()
+    gsb_is_error = gsb_report["sub_score"] in [REPUTATION_SCORES["API_ERROR"], REPUTATION_SCORES["CONNECTION_ERROR"]] or \
+                   "not configured" in gsb_report["details"].lower() or \
+                   "error" in gsb_report["details"].lower()
+    
+    # If BOTH APIs failed, mark as NO DATA and exclude from weighted average
+    if vt_is_error and gsb_is_error:
+        report["sub_score"] = None  # None = excluded from scoring
+        report["details"].append(f"<b>VirusTotal:</b> {vt_report['details']}")
+        report["details"].append(f"<b>Google Safe Browsing:</b> {gsb_report['details']}")
+        report["details"].append("<b>NO-DATA:</b> Both reputation APIs unavailable - module excluded from score")
+        return report
 
     # Extract vendor counts from VirusTotal
     malicious_count = 0
@@ -230,8 +249,12 @@ def check_reputation(hostname: str, full_url: str) -> Dict[str, Any]:
         report["details"].append(f"<b>Verdict:</b> WARNING - Flagged by {total_flags} source(s) (Score: {final_score:.1f})")
     elif vt_report["sub_score"] == REPUTATION_SCORES["CLEAN"] or gsb_report["sub_score"] == REPUTATION_SCORES["CLEAN"]:
         report["details"].append("<b>Verdict:</b> Clean - No threats detected")
+    elif vt_report["sub_score"] == REPUTATION_SCORES["NOT_FOUND"]:
+        # Domain not in database - still valid data, just new domain
+        report["details"].append("<b>Verdict:</b> Domain not in database (new or low-traffic site)")
     else:
-        report["details"].append("<b>Verdict:</b> No data from reputation databases (assumed clean)")
+        # One API worked but returned neutral - still use the data
+        report["details"].append("<b>Verdict:</b> Partial data available")
     
     report["sub_score"] = final_score
 

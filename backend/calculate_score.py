@@ -130,10 +130,11 @@ def AI_score(url: str, extracted_text: str = None):
                 report['details'] = ["<b>No data available</b> - AI service rate limited"]
                 return report
             
-            # Other errors: return neutral score
-            report['score'] = 0.5  # Neutral score
+            # Other errors: also exclude from scoring (not neutral 0.5)
+            # This ensures failed modules don't artificially affect the score
+            report['score'] = None  # None means excluded from scoring
             report['details'] = [
-                "<b>AI Analysis Status:</b> Unable to analyze (service unavailable)",
+                "<b>No data available</b> - AI service unavailable",
                 f"<b>Reason:</b> {error_msg}"
             ]
             return report
